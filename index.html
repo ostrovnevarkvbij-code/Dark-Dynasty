@@ -7,73 +7,119 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Навигация с вкладками -->
+    <nav class="navbar">
+        <div class="nav-item active" onclick="showTab('home')">
+            <span class="nav-icon"></span>
+            <span class="nav-text">Главная</span>
+        </div>
+        <div class="nav-item" onclick="showTab('loading')">
+            <span class="nav-icon">⏳</span>
+            <span class="nav-text">Загрузка</span>
+        </div>
+        <div class="nav-item" onclick="showTab('code')">
+            <span class="nav-icon">💻</span>
+            <span class="nav-text">Код</span>
+        </div>
+    </nav>
+
     <div class="container">
-        <!-- Шапка -->
-        <header class="header">
-            <div class="bot-avatar">⚖️</div>
-            <h1 class="bot-name">Dark Arbitr</h1>
-            <p class="bot-tag">BOT</p>
-            <p class="bot-desc">Мощный бот для модерации и управления сервером в Lolka</p>
-            <a href="#" class="btn-invite">➕ Добавить бота</a>
-        </header>
+        <!-- Вкладка 1: Главная -->
+        <div id="home" class="tab-content active">
+            <header class="header">
+                <div class="bot-avatar">⚖️</div>
+                <h1 class="bot-name">Dark Arbitr</h1>
+                <p class="bot-tag">BOT</p>
+                <p class="bot-desc">Мощный бот для модерации и управления сервером в Lolka</p>
+                <a href="#" class="btn-invite">➕ Добавить бота</a>
+            </header>
 
-        <!-- Возможности -->
-        <section class="features">
-            <h2>🚀 Возможности</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">️</div>
-                    <h3>Модерация</h3>
-                    <p>Бан, кик, мут, варны и система заявок</p>
+            <section class="features">
+                <h2>🚀 Возможности</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h3>Модерация</h3>
+                        <p>Бан, кик, мут, варны и система заявок</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"></div>
+                        <h3>Мини-игры</h3>
+                        <p>Мафия, дуэли и другие развлечения</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"></div>
+                        <h3>ИИ-ассистент</h3>
+                        <p>Умный помощник на основе AI</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎫</div>
+                        <h3>Тикеты</h3>
+                        <p>Система поддержки для сервера</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎭</div>
-                    <h3>Мини-игры</h3>
-                    <p>Мафия, дуэли и другие развлечения</p>
+            </section>
+        </div>
+
+        <!-- Вкладка 2: Загрузка -->
+        <div id="loading" class="tab-content">
+            <div class="loading-page">
+                <div class="loading-spinner"></div>
+                <h2>Загрузка бота...</h2>
+                <p>Пожалуйста, подождите</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon"></div>
-                    <h3>ИИ-ассистент</h3>
-                    <p>Умный помощник на основе AI</p>
+                <p class="loading-status">Подключение к серверу...</p>
+            </div>
+        </div>
+
+        <!-- Вкладка 3: Код -->
+        <div id="code" class="tab-content">
+            <div class="code-page">
+                <h2> Программирование</h2>
+                <p class="code-desc">Dark Arbitr создан на Python с использованием библиотеки lolka.py</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>main.py</span>
+                        <button class="copy-btn" onclick="copyCode()">📋 Копировать</button>
+                    </div>
+                    <pre><code>import lolka as discord
+from lolka.ext import commands
+
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+
+@bot.event
+async def on_ready():
+    print(f"✅ Бот онлайн: {bot.user}")
+
+bot.run("TOKEN")</code></pre>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon"></div>
-                    <h3>Тикеты</h3>
-                    <p>Система поддержки для сервера</p>
+
+                <div class="tech-stack">
+                    <h3>🛠️ Технологии</h3>
+                    <div class="tech-list">
+                        <div class="tech-item">
+                            <span class="tech-icon">🐍</span>
+                            <span>Python 3.11</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-icon">🤖</span>
+                            <span>lolka.py</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-icon">🧠</span>
+                            <span>Groq AI</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-icon"></span>
+                            <span>GitHub Pages</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <!-- Команды -->
-        <section class="commands">
-            <h2>⚙️ Популярные команды</h2>
-            <div class="command-list">
-                <div class="command">
-                    <code>/бан</code>
-                    <span>Забанить пользователя</span>
-                </div>
-                <div class="command">
-                    <code>/кик</code>
-                    <span>Кикнуть пользователя</span>
-                </div>
-                <div class="command">
-                    <code>/мафия</code>
-                    <span>Начать игру в мафию</span>
-                </div>
-                <div class="command">
-                    <code>/дуэль</code>
-                    <span>Вызвать игрока на дуэль</span>
-                </div>
-                <div class="command">
-                    <code>/тикет</code>
-                    <span>Создать панель тикетов</span>
-                </div>
-                <div class="command">
-                    <code>/заявки</code>
-                    <span>Управление заявками</span>
-                </div>
-            </div>
-        </section>
+        </div>
 
         <!-- Футер -->
         <footer class="footer">
