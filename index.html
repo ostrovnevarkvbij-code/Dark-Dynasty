@@ -8,25 +8,13 @@
 </head>
 <body>
 
-<!-- Защита: если не вошёл — на auth.html -->
 <script>
   if (!localStorage.getItem('logged_user')) {
     window.location.href = 'auth.html';
   }
 </script>
 
-<header class="topbar">
-  <div class="logo">
-    <div class="logo-icon">⚖️</div>
-    <span>Dark Arbitr</span>
-  </div>
-  <nav class="tabs">
-    <button class="tab active" data-target="mafia">🎭 Мафия</button>
-    <button class="tab" data-target="duel">⚔️ Дуэль</button>
-    <button class="tab" data-target="economy">💰 Экономика</button>
-    <button class="tab" data-target="moderation">🛡️ Модерация</button>
-  </nav>
-
+<header class="topbar topbar-simple">
   <div class="user-box">
     <span class="whoami" id="whoami"></span>
     <button class="logout-btn" onclick="localStorage.clear(); location.href='auth.html'">Выйти</button>
@@ -37,50 +25,21 @@
 
   <div class="hero">
     <h1>Dark Arbitr Bot</h1>
-    <p>Правосудие вершится здесь. Команды, мини-игры и модерация — в одном месте.</p>
+    <p>Правосудие вершится здесь.</p>
   </div>
 
-  <!-- МАФИЯ -->
-  <section id="mafia" class="section active">
-    <div class="grid">
-      <div class="card">
-        <span class="badge new">NEW</span>
-        <div class="card-icon">🎭</div>
-        <h3>Создать лобби</h3>
-        <p>Собери до 10 игроков. Приватные каналы для каждой роли создаются автоматически.</p>
-        <span class="cmd">/мафия</span>
-      </div>
+  <nav class="tabs tabs-main">
+    <button class="tab active" data-target="minigames">🎮 Мини игры</button>
+    <button class="tab" data-target="moderation">🛡️ Модерация</button>
+  </nav>
 
-      <div class="card">
-        <div class="card-icon">🔪</div>
-        <h3>Убить</h3>
-        <p>Ночное действие мафии. Пишется в приватном канале, никто не видит.</p>
-        <span class="cmd">!убить @user</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">💊</div>
-        <h3>Лечить</h3>
-        <p>Доктор спасает игрока, которого выбрала мафия.</p>
-        <span class="cmd">!лечить @user</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🔫</div>
-        <h3>Проверить</h3>
-        <p>Шериф узнаёт, мафия перед ним или мирный житель.</p>
-        <span class="cmd">!проверить @user</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ДУЭЛЬ -->
-  <section id="duel" class="section">
+  <!-- МИНИ ИГРЫ -->
+  <section id="minigames" class="section active">
     <div class="grid">
       <div class="card">
         <div class="card-icon">⚔️</div>
         <h3>Вызвать на дуэль</h3>
-        <p>100 HP у каждого, урон 10–25, шанс крита 20% на двойной удар.</p>
+        <p>100 HP у каждого. Урон 10–25, шанс крита 20%. Кто упадёт первым — проиграл.</p>
         <span class="cmd">/дуэль @user</span>
       </div>
 
@@ -89,39 +48,6 @@
         <h3>Атака</h3>
         <p>Пошаговая система. Ход передаётся автоматически после удара.</p>
         <span class="cmd">!атака</span>
-      </div>
-
-      <div class="card">
-        <span class="badge hot">HOT</span>
-        <div class="card-icon">🏆</div>
-        <h3>Победа</h3>
-        <p>Первый, кто отправит противника к 0 HP, побеждает в дуэли.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ЭКОНОМИКА -->
-  <section id="economy" class="section">
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon">💰</div>
-        <h3>Баланс</h3>
-        <p>Проверь свой текущий баланс и статистику.</p>
-        <span class="cmd">/баланс</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🎁</div>
-        <h3>Бонус</h3>
-        <p>Получай ежедневную награду за вход на сервер.</p>
-        <span class="cmd">/бонус</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🛒</div>
-        <h3>Магазин</h3>
-        <p>Покупай роли, титулы и бонусы за игровую валюту.</p>
-        <span class="cmd">/магазин</span>
       </div>
     </div>
   </section>
@@ -137,17 +63,38 @@
       </div>
 
       <div class="card">
+        <div class="card-icon">👢</div>
+        <h3>Кик</h3>
+        <p>Выгнать участника с сервера без блокировки.</p>
+        <span class="cmd">/кик @user</span>
+      </div>
+
+      <div class="card">
         <div class="card-icon">🔇</div>
         <h3>Мут</h3>
-        <p>Временно заглушить нарушителя в текстовых каналах.</p>
+        <p>Временно заглушить нарушителя в чате.</p>
         <span class="cmd">/мут @user</span>
       </div>
 
       <div class="card">
-        <div class="card-icon">🧹</div>
-        <h3>Очистка</h3>
-        <p>Удалить N последних сообщений в канале одной командой.</p>
-        <span class="cmd">/клир 50</span>
+        <div class="card-icon">🔊</div>
+        <h3>Размут</h3>
+        <p>Снять мут с участника досрочно.</p>
+        <span class="cmd">/размут @user</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚠️</div>
+        <h3>Варн</h3>
+        <p>Выдать предупреждение участнику.</p>
+        <span class="cmd">/варн @user</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <h3>Снять варн</h3>
+        <p>Убрать предупреждение с участника.</p>
+        <span class="cmd">/снять_варн @user</span>
       </div>
     </div>
   </section>
@@ -155,7 +102,7 @@
 </main>
 
 <script>
-  // Показываем имя вошедшего
+  // Имя вошедшего
   const u = localStorage.getItem('logged_user');
   if (u) document.getElementById('whoami').textContent = '@' + u;
 
