@@ -3,47 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Вход в панель</title>
+<title>Вход — Dark Arbitr Bot</title>
 <link rel="stylesheet" href="style.css">
 <style>
   .auth-wrap {
     max-width: 400px; margin: 100px auto; padding: 32px;
-    background: rgba(18, 22, 42, 0.72);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(30, 12, 16, 0.72);
+    border: 1px solid rgba(255, 45, 45, 0.15);
     border-radius: 20px; backdrop-filter: blur(16px);
+    box-shadow: 0 20px 60px rgba(255, 0, 0, 0.15);
   }
-  .auth-wrap h2 { margin-bottom: 8px; text-align: center; }
-  .auth-wrap p.sub { color: #8a91b4; font-size: 13px; text-align: center; margin-bottom: 20px; }
+  .auth-wrap h2 { margin-bottom: 8px; text-align: center; font-size: 22px; }
+  .auth-wrap p.sub { color: #b08080; font-size: 13px; text-align: center; margin-bottom: 24px; }
   .auth-wrap input {
     width: 100%; padding: 14px 16px; margin-bottom: 12px;
-    background: rgba(0,0,0,0.35);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px; color: #eef1ff; font-size: 16px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,45,45,0.2);
+    border-radius: 10px; color: #ffeaea; font-size: 16px;
     font-family: monospace; text-align: center; letter-spacing: 2px;
-    text-transform: uppercase;
+    text-transform: uppercase; outline: none;
+    transition: 0.2s;
+  }
+  .auth-wrap input:focus {
+    border-color: rgba(255,45,45,0.6);
+    box-shadow: 0 0 0 3px rgba(255,45,45,0.15);
   }
   .auth-wrap button {
-    width: 100%; padding: 12px;
-    background: linear-gradient(135deg, #7c5cff, #22d3ee);
+    width: 100%; padding: 13px;
+    background: linear-gradient(135deg, #ff2d2d, #ff6b4a);
     border: none; border-radius: 10px; color: #fff;
     font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit;
+    box-shadow: 0 8px 25px rgba(255, 45, 45, 0.4);
+    transition: 0.2s;
+  }
+  .auth-wrap button:hover {
+    box-shadow: 0 10px 30px rgba(255, 45, 45, 0.6);
+    transform: translateY(-1px);
   }
   .msg { text-align: center; margin-top: 12px; font-size: 13px; min-height: 18px; }
-  .msg.err { color: #fca5a5; }
-  .msg.ok { color: #67e8f9; }
-  .hint { text-align: center; margin-top: 20px; font-size: 13px; color: #8a91b4; }
-  .hint b { color: #a5f3fc; }
+  .msg.err { color: #ff8080; }
+  .msg.ok { color: #80ff80; }
+  .hint { text-align: center; margin-top: 24px; font-size: 13px; color: #b08080; line-height: 1.6; }
+  .hint b { color: #ff8080; }
+
+  .auth-logo {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-bottom: 8px;
+  }
+  .auth-logo .logo-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, #ff2d2d, #ff6b4a);
+    display: grid; place-items: center;
+    font-size: 22px;
+    box-shadow: 0 8px 25px rgba(255, 45, 45, 0.5);
+  }
 </style>
 </head>
 <body>
 
 <div class="auth-wrap">
-  <h2>Вход в панель</h2>
-  <p class="sub">Через аккаунт Lolka</p>
+  <div class="auth-logo">
+    <div class="logo-icon">⚖️</div>
+  </div>
+  <h2>Dark Arbitr Bot</h2>
+  <p class="sub">Вход через аккаунт Lolka</p>
   <input type="text" id="code" placeholder="XXXX-XXXX" maxlength="9">
   <button onclick="verify()">Войти</button>
   <div class="msg" id="msg"></div>
-  <div class="hint">Напиши боту команду <b>/код</b> и введи полученный код выше</div>
+  <div class="hint">Напиши боту команду <b>/код</b><br>и введи полученный код выше</div>
 </div>
 
 <script>
