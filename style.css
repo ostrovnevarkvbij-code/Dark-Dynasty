@@ -73,6 +73,43 @@ body::after  { background: rgba(34, 211, 238, 0.25); bottom: -250px; right: -200
   box-shadow: 0 8px 25px rgba(124, 92, 255, 0.45);
 }
 
+/* ===== БЛОК ПОЛЬЗОВАТЕЛЯ ===== */
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.whoami {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--stroke);
+  border-radius: 999px;
+}
+
+.logout-btn {
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+}
+
 /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
 main {
   position: relative; z-index: 1;
@@ -175,9 +212,11 @@ main {
 .badge.new { background: rgba(34, 211, 238, 0.2); color: #67e8f9; }
 .badge.hot { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
 
+/* ===== АДАПТИВ ===== */
 @media (max-width: 600px) {
   .topbar { padding: 14px 16px; gap: 12px; }
   .tabs { margin-left: 0; width: 100%; justify-content: center; }
   .logo { width: 100%; justify-content: center; }
+  .user-box { width: 100%; justify-content: center; margin-left: 0; }
   main { padding: 24px 14px 60px; }
-    }
+}
