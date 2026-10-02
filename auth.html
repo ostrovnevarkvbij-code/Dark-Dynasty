@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход в панель</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .auth-wrap {
+    max-width: 400px; margin: 100px auto; padding: 32px;
+    background: rgba(18, 22, 42, 0.72);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; backdrop-filter: blur(16px);
+  }
+  .auth-wrap h2 { margin-bottom: 8px; text-align: center; }
+  .auth-wrap p.sub { color: #8a91b4; font-size: 13px; text-align: center; margin-bottom: 20px; }
+  .auth-wrap input {
+    width: 100%; padding: 14px 16px; margin-bottom: 12px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px; color: #eef1ff; font-size: 16px;
+    font-family: monospace; text-align: center; letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .auth-wrap button {
+    width: 100%; padding: 12px;
+    background: linear-gradient(135deg, #7c5cff, #22d3ee);
+    border: none; border-radius: 10px; color: #fff;
+    font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit;
+  }
+  .msg { text-align: center; margin-top: 12px; font-size: 13px; min-height: 18px; }
+  .msg.err { color: #fca5a5; }
+  .msg.ok { color: #67e8f9; }
+  .hint { text-align: center; margin-top: 20px; font-size: 13px; color: #8a91b4; }
+  .hint b { color: #a5f3fc; }
+</style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <h2>Вход в панель</h2>
+  <p class="sub">Через аккаунт Lolka</p>
+  <input type="text" id="code" placeholder="XXXX-XXXX" maxlength="9">
+  <button onclick="verify()">Войти</button>
+  <div class="msg" id="msg"></div>
+  <div class="hint">Напиши боту команду <b>/код</b> и введи полученный код выше</div>
+</div>
+
+<script>
+  if (localStorage.getItem('logged_user')) {
+    window.location.href = 'index.html';
+  }
+
+  const API = 'https://kjfgzzftse.apps.bot-hosting.cloud/api/verify-code';
+  const msg = document.getElementById('msg');
+  const codeEl = document.getElementById('code');
+
+  codeEl.addEventListener('input', (e) => {
+    let v = e.target.value.replace(/[^a-z0-9]/gi, '').toUpperCase();
+    if (v.length > 4) v = v.slice(0, 4) + '-' + v.slice(4, 8);
+    e.target.value = v;
+  });
+
+  async function verify() {
+    const code = codeEl.value.trim();
+    msg.className = 'msg';
+
+    if (code.length < 9) {
+      msg.textContent = 'Код должен быть в формате XXXX-XXXX';
+      msg.classList.add('err');
+      return;
+    }
+
+    msg.textContent = 'Проверяем...';
+
+    try {
+      const r = await fetch(API, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ code })
+      });
+      const data = await r.json();
+
+      if (data.error) {
+        msg.textContent = data.error;
+        msg.classList.add('err');
+        return;
+      }
+
+      localStorage.setItem('logged_user', data.username);
+      localStorage.setItem('lolka_id', data.user_id);
+      msg.textContent = `Привет, ${data.username}! Входим...`;
+      msg.classList.add('ok');
+      setTimeout(() => window.location.href = 'index.html', 800);
+    } catch (e) {
+      msg.textContent = 'Ошибка сети. Попробуй ещё раз.';
+      msg.classList.add('err');
+    }
+  }
+
+  codeEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') verify();
+  });
+</script>
+</body>
+</html>
