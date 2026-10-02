@@ -29,12 +29,73 @@
   </div>
 
   <nav class="tabs tabs-main">
-    <button class="tab active" data-target="minigames">🎮 Мини игры</button>
+    <button class="tab active" data-target="server">🖥️ Сервер</button>
+    <button class="tab" data-target="minigames">🎮 Мини игры</button>
     <button class="tab" data-target="moderation">🛡️ Модерация</button>
   </nav>
 
+  <!-- СЕРВЕР -->
+  <section id="server" class="section active">
+    <div class="grid grid-server">
+      <div class="card card-select">
+        <div class="card-icon">🌐</div>
+        <h3>Выбери сервер</h3>
+        <p>Здесь появятся все серверы, где есть Dark Arbitr Bot и где ты имеешь права управления.</p>
+
+        <select id="guildSelect" class="select">
+          <option value="">Загрузка...</option>
+        </select>
+
+        <div class="selected-info" id="selectedInfo" style="display:none;">
+          <span class="selected-label">Выбран:</span>
+          <span class="selected-name" id="selectedName"></span>
+        </div>
+      </div>
+    </div>
+
+    <div id="serverPanel" class="server-panel" style="display:none;">
+      <div class="server-header">
+        <div class="server-avatar" id="serverAvatar">🌐</div>
+        <div>
+          <h2 id="serverTitle">Сервер</h2>
+          <p class="server-sub" id="serverSub">Управление сервером</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card disabled">
+          <div class="card-icon">⚙️</div>
+          <h3>Настройки</h3>
+          <p>Префикс, язык, авто-роли и другое.</p>
+          <span class="soon">Скоро</span>
+        </div>
+
+        <div class="card disabled">
+          <div class="card-icon">📋</div>
+          <h3>Логи</h3>
+          <p>Выбор канала, куда бот пишет события.</p>
+          <span class="soon">Скоро</span>
+        </div>
+
+        <div class="card disabled">
+          <div class="card-icon">🛡️</div>
+          <h3>Автомодерация</h3>
+          <p>Анти-спам, анти-ссылки, анти-капс.</p>
+          <span class="soon">Скоро</span>
+        </div>
+
+        <div class="card disabled">
+          <div class="card-icon">👋</div>
+          <h3>Приветствия</h3>
+          <p>Сообщения при входе и выходе участников.</p>
+          <span class="soon">Скоро</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- МИНИ ИГРЫ -->
-  <section id="minigames" class="section active">
+  <section id="minigames" class="section">
     <div class="grid">
       <div class="card">
         <div class="card-icon">⚔️</div>
@@ -119,6 +180,92 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
+
+  // ===== СЕРВЕРЫ: загружаем с API =====
+  const API = 'https://kjfgzzftse.apps.bot-hosting.cloud';
+  const userId = localStorage.getItem('lolka_id');
+
+  const guildSelect = document.getElementById('guildSelect');
+  const selectedInfo = document.getElementById('selectedInfo');
+  const selectedName = document.getElementById('selectedName');
+  const serverPanel = document.getElementById('serverPanel');
+  const serverAvatar = document.getElementById('serverAvatar');
+  const serverTitle = document.getElementById('serverTitle');
+  const serverSub = document.getElementById('serverSub');
+
+  let MY_GUILDS = [];
+
+  async function loadGuilds() {
+    if (!userId) return;
+    guildSelect.innerHTML = '<option value="">Загрузка...</option>';
+
+    try {
+      const r = await fetch(`${API}/api/guilds?user_id=${userId}`);
+      const data = await r.json();
+
+      if (!Array.isArray(data)) {
+        guildSelect.innerHTML = '<option value="">Ошибка загрузки</option>';
+        return;
+      }
+
+      MY_GUILDS = data;
+      renderGuilds();
+    } catch (e) {
+      guildSelect.innerHTML = '<option value="">Нет связи с ботом</option>';
+    }
+  }
+
+  function renderGuilds() {
+    guildSelect.innerHTML = '<option value="">— Выбери сервер —</option>';
+
+    if (MY_GUILDS.length === 0) {
+      guildSelect.innerHTML = '<option value="">Нет доступных серверов</option>';
+      return;
+    }
+
+    MY_GUILDS.forEach(g => {
+      const opt = document.createElement('option');
+      opt.value = g.id;
+      opt.textContent = g.name;
+      guildSelect.appendChild(opt);
+    });
+
+    const savedId = localStorage.getItem('selected_guild');
+    if (savedId && MY_GUILDS.some(g => g.id === savedId)) {
+      guildSelect.value = savedId;
+      showSelected(savedId);
+    }
+  }
+
+  function showSelected(id) {
+    const g = MY_GUILDS.find(x => x.id === id);
+    if (!g) {
+      selectedInfo.style.display = 'none';
+      serverPanel.style.display = 'none';
+      return;
+    }
+    selectedInfo.style.display = 'flex';
+    selectedName.textContent = g.name;
+
+    serverPanel.style.display = 'block';
+    serverTitle.textContent = g.name;
+    serverSub.textContent = 'ID: ' + g.id;
+    serverAvatar.textContent = g.name.charAt(0).toUpperCase();
+  }
+
+  guildSelect.addEventListener('change', function () {
+    const id = this.value;
+    if (!id) {
+      localStorage.removeItem('selected_guild');
+      selectedInfo.style.display = 'none';
+      serverPanel.style.display = 'none';
+      return;
+    }
+    localStorage.setItem('selected_guild', id);
+    showSelected(id);
+  });
+
+  loadGuilds();
 </script>
 
 </body>
