@@ -1,63 +1,183 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 :root {
-  --bg: #080a14;          /* Тёмный фон */
-  --card: rgba(18,22,42,.72); /* Стекло */
-  --stroke: rgba(255,255,255,.10); /* Тонкая рамка */
-  --brand: #7c5cff;       /* Акцентный цвет (фиолетовый) */
+  --bg: #070912;
+  --card: rgba(18, 22, 42, 0.72);
+  --stroke: rgba(255, 255, 255, 0.08);
+  --brand: #7c5cff;
+  --brand2: #22d3ee;
   --text: #eef1ff;
+  --muted: #8a91b4;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Manrope', sans-serif;
-  margin: 0;
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
 }
 
-/* Сетка для карточек */
+/* Размытые цветные пятна на фоне */
+body::before, body::after {
+  content: '';
+  position: fixed;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  filter: blur(140px);
+  z-index: 0;
+  pointer-events: none;
+}
+body::before { background: rgba(124, 92, 255, 0.35); top: -200px; left: -200px; }
+body::after  { background: rgba(34, 211, 238, 0.25); bottom: -250px; right: -200px; }
+
+/* ===== ШАПКА ===== */
+.topbar {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 20px;
+  padding: 16px 28px;
+  background: rgba(7, 9, 18, 0.75);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--stroke);
+  flex-wrap: wrap;
+}
+
+.logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; }
+.logo-icon {
+  width: 38px; height: 38px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  display: grid; place-items: center;
+  font-size: 20px;
+  box-shadow: 0 8px 25px rgba(124, 92, 255, 0.4);
+}
+
+.tabs { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.tab {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--stroke);
+  color: var(--muted);
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  transition: 0.25s;
+}
+.tab:hover { color: var(--text); border-color: rgba(255, 255, 255, 0.2); }
+.tab.active {
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(124, 92, 255, 0.45);
+}
+
+/* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+main {
+  position: relative; z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 50px;
+  animation: fadeIn 0.6s ease;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, #a5a9ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+.hero p { color: var(--muted); font-size: 17px; }
+
+.section { display: none; }
+.section.active { display: block; animation: fadeIn 0.45s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .grid {
   display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Авто-подгонка */
-  padding: 20px;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
 }
 
-/* Стеклянная карточка */
+/* ===== КАРТОЧКИ ===== */
 .card {
   background: var(--card);
   border: 1px solid var(--stroke);
-  border-radius: 18px;
-  padding: 20px;
-  backdrop-filter: blur(12px); /* Эффект размытия */
-  box-shadow: 0 20px 60px rgba(0,0,0,.55);
-  transition: transform 0.2s, border-color 0.2s;
+  border-radius: 20px;
+  padding: 24px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
 }
-
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  opacity: 0; transition: opacity 0.3s;
+}
 .card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255,255,255,.25);
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 24px 70px rgba(124, 92, 255, 0.25);
+}
+.card:hover::before { opacity: 1; }
+
+.card-icon {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  background: rgba(124, 92, 255, 0.15);
+  border: 1px solid rgba(124, 92, 255, 0.3);
+  display: grid; place-items: center;
+  font-size: 24px;
+  margin-bottom: 16px;
 }
 
-/* Кнопки-таблетки */
-.tabs { margin-left: auto; display: flex; gap: 8px; }
-.tab {
-  background: rgba(255,255,255,.05);
+.card h3 { font-size: 18px; margin-bottom: 8px; font-weight: 700; }
+.card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 14px; }
+
+.cmd {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.35);
   border: 1px solid var(--stroke);
-  color: var(--text);
-  padding: 10px 18px;
-  border-radius: 999px; /* Таблетка */
-  cursor: pointer;
-  transition: 0.2s;
-}
-.tab.active {
-  background: linear-gradient(135deg, #7c5cff, #22d3ee);
-  border-color: transparent;
-  box-shadow: 0 10px 30px rgba(124,92,255,.35);
+  color: #a5f3fc;
+  font-family: 'Consolas', monospace;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin: 3px 4px 3px 0;
 }
 
-/* Анимация появления */
-.section { display: none; }
-.section.active { display: block; animation: fadeIn 0.4s ease; }
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.badge {
+  position: absolute; top: 20px; right: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(124, 92, 255, 0.2);
+  color: #c4b5fd;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
+.badge.new { background: rgba(34, 211, 238, 0.2); color: #67e8f9; }
+.badge.hot { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+
+@media (max-width: 600px) {
+  .topbar { padding: 14px 16px; gap: 12px; }
+  .tabs { margin-left: 0; width: 100%; justify-content: center; }
+  .logo { width: 100%; justify-content: center; }
+  main { padding: 24px 14px 60px; }
+    }
