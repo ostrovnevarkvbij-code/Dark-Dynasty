@@ -1,138 +1,20 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Arbitr Bot</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-</head>
-<body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="bot-avatar">️</div>
-                <h1 class="bot-name">Dark Arbitr</h1>
-                <p class="bot-tagline">Твой идеальный помощник на сервере!</p>
-                <p class="bot-description">
-                    👋 Привет, я Dark Arbitr! Я — многофункциональный бот для модерации 
-                    и управления сервером в Lolka, который всегда придёт на помощь.
-                </p>
-                <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary"> Добавить бота</a>
-                    <a href="#features" class="btn btn-secondary">📋 Возможности</a>
-                </div>
-            </div>
-        </div>
-    </section>
+<header class="topbar">
+  <div class="logo">
+    <img src="твой_логотип.png" alt="logo">
+    <span>Твой Бот</span>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" data-target="economy">Экономика</button>
+    <button class="tab" data-target="pets">Питомцы</button>
+    <button class="tab" data-target="moderation">Модерация</button>
+  </nav>
+</header>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Почему выбирают нас?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⚖️</div>
-                    <h3>Модерация</h3>
-                    <p>Бан, кик, мут, варны и система заявок для эффективного управления сервером</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"></div>
-                    <h3>Мини-игры</h3>
-                    <p>Мафия, дуэли и другие развлечения для твоих участников</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🧠</div>
-                    <h3>ИИ-ассистент</h3>
-                    <p>Умный помощник на основе AI для ответов на вопросы</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"></div>
-                    <h3>Тикеты</h3>
-                    <p>Система поддержки для удобного общения с пользователями</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📋</div>
-                    <h3>Заявки</h3>
-                    <p>Автоматический приём заявок с авто-выдачей ролей</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"></div>
-                    <h3>Логи</h3>
-                    <p>Полное логирование всех действий на сервере</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">12</div>
-                    <div class="stat-label">Серверов</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">132</div>
-                    <div class="stat-label">Пользователей</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">15</div>
-                    <div class="stat-label">Команд</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Работа</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Commands Section -->
-    <section class="commands">
-        <div class="container">
-            <h2 class="section-title">Популярные команды</h2>
-            <div class="commands-list">
-                <div class="command-item">
-                    <code>/бан</code>
-                    <span>Забанить пользователя</span>
-                </div>
-                <div class="command-item">
-                    <code>/кик</code>
-                    <span>Кикнуть пользователя</span>
-                </div>
-                <div class="command-item">
-                    <code>/мафия</code>
-                    <span>Начать игру в мафию</span>
-                </div>
-                <div class="command-item">
-                    <code>/дуэль</code>
-                    <span>Вызвать на дуэль</span>
-                </div>
-                <div class="command-item">
-                    <code>/тикет</code>
-                    <span>Создать тикет</span>
-                </div>
-                <div class="command-item">
-                    <code>/заявки</code>
-                    <span>Управление заявками</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>© 2026 Dark Arbitr Bot | Создано с ❤️ для Lolka</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+<main>
+  <section id="economy" class="section active">
+    <!-- Карточки с командами -->
+  </section>
+  <section id="pets" class="section">
+    <!-- ... -->
+  </section>
+</main>
