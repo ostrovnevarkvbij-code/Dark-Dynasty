@@ -1,20 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Панель бота</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
 <header class="topbar">
   <div class="logo">
-    <img src="твой_логотип.png" alt="logo">
+    <div class="logo-icon">🎭</div>
     <span>Твой Бот</span>
   </div>
   <nav class="tabs">
-    <button class="tab active" data-target="economy">Экономика</button>
-    <button class="tab" data-target="pets">Питомцы</button>
-    <button class="tab" data-target="moderation">Модерация</button>
+    <button class="tab active" data-target="mafia">🎭 Мафия</button>
+    <button class="tab" data-target="duel">⚔️ Дуэль</button>
+    <button class="tab" data-target="economy">💰 Экономика</button>
+    <button class="tab" data-target="moderation">🛡️ Модерация</button>
   </nav>
 </header>
 
 <main>
-  <section id="economy" class="section active">
-    <!-- Карточки с командами -->
+
+  <div class="hero">
+    <h1>Панель управления ботом</h1>
+    <p>Все команды, мини-игры и функции в одном месте</p>
+  </div>
+
+  <!-- МАФИЯ -->
+  <section id="mafia" class="section active">
+    <div class="grid">
+      <div class="card">
+        <span class="badge new">NEW</span>
+        <div class="card-icon">🎭</div>
+        <h3>Создать лобби</h3>
+        <p>Собери до 10 игроков, приватные каналы для каждой роли создаются автоматически.</p>
+        <span class="cmd">/мафия</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔪</div>
+        <h3>Убить</h3>
+        <p>Ночное действие мафии. Пишется в приватном канале, никто не видит.</p>
+        <span class="cmd">!убить @user</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💊</div>
+        <h3>Лечить</h3>
+        <p>Доктор спасает игрока, которого выбрала мафия.</p>
+        <span class="cmd">!лечить @user</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔫</div>
+        <h3>Проверить</h3>
+        <p>Шериф узнаёт, мафия перед ним или мирный житель.</p>
+        <span class="cmd">!проверить @user</span>
+      </div>
+    </div>
   </section>
-  <section id="pets" class="section">
-    <!-- ... -->
+
+  <!-- ДУЭЛЬ -->
+  <section id="duel" class="section">
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">⚔️</div>
+        <h3>Вызвать на дуэль</h3>
+        <p>100 HP у каждого, урон 10–25, шанс крита 20% на двойной удар.</p>
+        <span class="cmd">/дуэль @user</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💥</div>
+        <h3>Атака</h3>
+        <p>Пошаговая система. Ход передаётся автоматически после удара.</p>
+        <span class="cmd">!атака</span>
+      </div>
+
+      <div class="card">
+        <span class="badge hot">HOT</span>
+        <div class="card-icon">🏆</div>
+        <h3>Победа</h3>
+        <p>Первый, кто отправит противника к 0 HP, побеждает в дуэли.</p>
+      </div>
+    </div>
   </section>
+
+  <!-- ЭКОНОМИКА -->
+  <section id="economy" class="section">
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h3>Баланс</h3>
+        <p>Проверь свой текущий баланс и статистику.</p>
+        <span class="cmd">/баланс</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎁</div>
+        <h3>Бонус</h3>
+        <p>Получай ежедневную награду за вход на сервер.</p>
+        <span class="cmd">/бонус</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🛒</div>
+        <h3>Магазин</h3>
+        <p>Покупай роли, титулы и бонусы за игровую валюту.</p>
+        <span class="cmd">/магазин</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- МОДЕРАЦИЯ -->
+  <section id="moderation" class="section">
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">🔨</div>
+        <h3>Бан</h3>
+        <p>Забанить участника с указанием причины и срока.</p>
+        <span class="cmd">/бан @user</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔇</div>
+        <h3>Мут</h3>
+        <p>Временно заглушить нарушителя в текстовых каналах.</p>
+        <span class="cmd">/мут @user</span>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🧹</div>
+        <h3>Очистка</h3>
+        <p>Удалить N последних сообщений в канале одной командой.</p>
+        <span class="cmd">/клир 50</span>
+      </div>
+    </div>
+  </section>
+
 </main>
+
+<script src="script.js"></script>
+</body>
+</html>
