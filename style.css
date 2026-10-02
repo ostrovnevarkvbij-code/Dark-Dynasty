@@ -1,13 +1,13 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #070912;
-  --card: rgba(18, 22, 42, 0.72);
-  --stroke: rgba(255, 255, 255, 0.08);
-  --brand: #7c5cff;
-  --brand2: #22d3ee;
-  --text: #eef1ff;
-  --muted: #8a91b4;
+  --bg: #0a0507;
+  --card: rgba(30, 12, 16, 0.72);
+  --stroke: rgba(255, 45, 45, 0.12);
+  --brand: #ff2d2d;
+  --brand2: #ff6b4a;
+  --text: #ffeaea;
+  --muted: #b08080;
 }
 
 body {
@@ -19,7 +19,7 @@ body {
   position: relative;
 }
 
-/* Размытые цветные пятна на фоне */
+/* Размытые красные пятна на фоне */
 body::before, body::after {
   content: '';
   position: fixed;
@@ -29,27 +29,27 @@ body::before, body::after {
   z-index: 0;
   pointer-events: none;
 }
-body::before { background: rgba(124, 92, 255, 0.35); top: -200px; left: -200px; }
-body::after  { background: rgba(34, 211, 238, 0.25); bottom: -250px; right: -200px; }
+body::before { background: rgba(255, 45, 45, 0.25); top: -200px; left: -200px; }
+body::after  { background: rgba(255, 107, 74, 0.18); bottom: -250px; right: -200px; }
 
 /* ===== ШАПКА ===== */
 .topbar {
   position: sticky; top: 0; z-index: 10;
   display: flex; align-items: center; gap: 20px;
   padding: 16px 28px;
-  background: rgba(7, 9, 18, 0.75);
+  background: rgba(10, 5, 7, 0.8);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--stroke);
   flex-wrap: wrap;
 }
 
-.logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; }
+.logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; letter-spacing: 0.5px; }
 .logo-icon {
   width: 38px; height: 38px; border-radius: 12px;
   background: linear-gradient(135deg, var(--brand), var(--brand2));
   display: grid; place-items: center;
   font-size: 20px;
-  box-shadow: 0 8px 25px rgba(124, 92, 255, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 45, 45, 0.5);
 }
 
 .tabs { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
@@ -65,12 +65,12 @@ body::after  { background: rgba(34, 211, 238, 0.25); bottom: -250px; right: -200
   font-family: inherit;
   transition: 0.25s;
 }
-.tab:hover { color: var(--text); border-color: rgba(255, 255, 255, 0.2); }
+.tab:hover { color: var(--text); border-color: rgba(255, 45, 45, 0.4); }
 .tab.active {
   background: linear-gradient(135deg, var(--brand), var(--brand2));
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 8px 25px rgba(124, 92, 255, 0.45);
+  box-shadow: 0 8px 25px rgba(255, 45, 45, 0.5);
 }
 
 /* ===== БЛОК ПОЛЬЗОВАТЕЛЯ ===== */
@@ -86,7 +86,7 @@ body::after  { background: rgba(34, 211, 238, 0.25); bottom: -250px; right: -200
   font-size: 13px;
   font-weight: 600;
   padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 45, 45, 0.08);
   border: 1px solid var(--stroke);
   border-radius: 999px;
 }
@@ -105,9 +105,10 @@ body::after  { background: rgba(34, 211, 238, 0.25); bottom: -250px; right: -200
 }
 
 .logout-btn:hover {
-  color: #fca5a5;
-  border-color: rgba(239, 68, 68, 0.4);
-  background: rgba(239, 68, 68, 0.1);
+  color: #ff8080;
+  border-color: rgba(255, 45, 45, 0.6);
+  background: rgba(255, 45, 45, 0.12);
+  box-shadow: 0 0 20px rgba(255, 45, 45, 0.3);
 }
 
 /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
@@ -126,13 +127,15 @@ main {
 .hero h1 {
   font-size: clamp(32px, 5vw, 52px);
   font-weight: 800;
-  background: linear-gradient(135deg, #fff, #a5a9ff);
+  background: linear-gradient(135deg, #fff, #ff5555);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 12px;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 60px rgba(255, 45, 45, 0.3);
 }
-.hero p { color: var(--muted); font-size: 17px; }
+.hero p { color: var(--muted); font-size: 17px; max-width: 600px; margin: 0 auto; }
 
 .section { display: none; }
 .section.active { display: block; animation: fadeIn 0.45s ease; }
@@ -168,16 +171,16 @@ main {
 }
 .card:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 24px 70px rgba(124, 92, 255, 0.25);
+  border-color: rgba(255, 45, 45, 0.35);
+  box-shadow: 0 24px 70px rgba(255, 45, 45, 0.3);
 }
 .card:hover::before { opacity: 1; }
 
 .card-icon {
   width: 48px; height: 48px;
   border-radius: 14px;
-  background: rgba(124, 92, 255, 0.15);
-  border: 1px solid rgba(124, 92, 255, 0.3);
+  background: rgba(255, 45, 45, 0.12);
+  border: 1px solid rgba(255, 45, 45, 0.3);
   display: grid; place-items: center;
   font-size: 24px;
   margin-bottom: 16px;
@@ -188,9 +191,9 @@ main {
 
 .cmd {
   display: inline-block;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid var(--stroke);
-  color: #a5f3fc;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 45, 45, 0.2);
+  color: #ff8080;
   font-family: 'Consolas', monospace;
   font-size: 13px;
   padding: 6px 12px;
@@ -204,13 +207,13 @@ main {
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(124, 92, 255, 0.2);
-  color: #c4b5fd;
+  background: rgba(255, 45, 45, 0.2);
+  color: #ff8080;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-.badge.new { background: rgba(34, 211, 238, 0.2); color: #67e8f9; }
-.badge.hot { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+.badge.new { background: rgba(255, 107, 74, 0.2); color: #ffb080; }
+.badge.hot { background: rgba(255, 45, 45, 0.3); color: #ff5555; }
 
 /* ===== АДАПТИВ ===== */
 @media (max-width: 600px) {
