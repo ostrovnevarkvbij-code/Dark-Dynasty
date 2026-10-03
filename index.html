@@ -246,9 +246,23 @@
     });
   });
 
+  // ===== ОТЛАДКА =====
+  function debugLog(text) {
+    let box = document.getElementById('debugBox');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'debugBox';
+      box.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#000;color:#0f0;font-size:11px;font-family:monospace;padding:8px;z-index:9999;max-height:35vh;overflow:auto;white-space:pre-wrap;border-top:2px solid #ff2d2d;';
+      document.body.appendChild(box);
+    }
+    box.textContent += text + '\n';
+    box.scrollTop = box.scrollHeight;
+  }
+
   // ===== СЕРВЕРЫ: загружаем с API =====
   const API = 'https://kjfgzzftse.apps.bot-hosting.cloud';
   const userId = localStorage.getItem('lolka_id');
+  debugLog('user_id: ' + userId);
 
   const guildSelect = document.getElementById('guildSelect');
   const selectedInfo = document.getElementById('selectedInfo');
@@ -265,17 +279,25 @@
     guildSelect.innerHTML = '<option value="">Загрузка...</option>';
 
     try {
-      const r = await fetch(`${API}/api/guilds?user_id=${userId}`);
+      const url = `${API}/api/guilds?user_id=${userId}`;
+      debugLog('GET ' + url);
+
+      const r = await fetch(url);
+      debugLog('Статус серверов: ' + r.status);
+
       const data = await r.json();
 
       if (!Array.isArray(data)) {
+        debugLog('НЕ МАССИВ: ' + JSON.stringify(data));
         guildSelect.innerHTML = '<option value="">Ошибка загрузки</option>';
         return;
       }
 
+      debugLog('Серверов: ' + data.length);
       MY_GUILDS = data;
       renderGuilds();
     } catch (e) {
+      debugLog('ОШИБКА серверов: ' + e.message);
       guildSelect.innerHTML = '<option value="">Нет связи с ботом</option>';
     }
   }
@@ -329,7 +351,6 @@
     localStorage.setItem('selected_guild', id);
     showSelected(id);
 
-    // Закрываем панель приветствий при смене сервера
     document.getElementById('welcomePanel').style.display = 'none';
   });
 
@@ -342,14 +363,22 @@
     if (!opened) {
       const guildId = guildSelect.value;
       if (guildId) loadWelcome(guildId);
+      else debugLog('Не выбран сервер!');
     }
   }
 
   async function loadChannelsInto(selectEl, guildId, selectedId) {
     selectEl.innerHTML = '<option value="">Загрузка...</option>';
     try {
-      const r = await fetch(`${API}/api/guilds/${guildId}/channels`);
+      const url = `${API}/api/guilds/${guildId}/channels`;
+      debugLog('GET ' + url);
+
+      const r = await fetch(url);
+      debugLog('Статус каналов: ' + r.status);
+
       const chans = await r.json();
+      debugLog('Каналов: ' + (Array.isArray(chans) ? chans.length : 'НЕ МАССИВ'));
+
       selectEl.innerHTML = '<option value="">— Выбери канал —</option>';
       if (Array.isArray(chans)) {
         chans.forEach(c => {
@@ -359,9 +388,12 @@
           if (selectedId && String(selectedId) === String(c.id)) opt.selected = true;
           selectEl.appendChild(opt);
         });
+      } else {
+        selectEl.innerHTML = '<option value="">Ошибка: ' + JSON.stringify(chans) + '</option>';
       }
     } catch (e) {
-      selectEl.innerHTML = '<option value="">Ошибка загрузки</option>';
+      debugLog('ОШИБКА каналов: ' + e.message);
+      selectEl.innerHTML = '<option value="">Ошибка: ' + e.message + '</option>';
     }
   }
 
@@ -397,7 +429,7 @@
         document.getElementById('goodbyeChannel').value = '';
       }
     } catch (e) {
-      console.error(e);
+      debugLog('ОШИБКА welcome/get: ' + e.message);
     }
   }
 
@@ -436,6 +468,7 @@
       }
     } catch (e) {
       showWelcomeMsg('❌ Нет связи с ботом', true);
+      debugLog('ОШИБКА save: ' + e.message);
     }
   }
 
