@@ -228,25 +228,20 @@
 </main>
 
 <script>
-  // Имя вошедшего
   const u = localStorage.getItem('logged_user');
   if (u) document.getElementById('whoami').textContent = '@' + u;
 
-  // Переключение вкладок
   document.querySelectorAll('.tab').forEach(function (btn) {
     btn.addEventListener('click', function () {
       document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
       document.querySelectorAll('.section').forEach(function (s) { s.classList.remove('active'); });
-
       btn.classList.add('active');
       var target = document.getElementById(btn.dataset.target);
       if (target) target.classList.add('active');
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 
-  // ===== ОТЛАДКА =====
   function debugLog(text) {
     let box = document.getElementById('debugBox');
     if (!box) {
@@ -259,10 +254,8 @@
     box.scrollTop = box.scrollHeight;
   }
 
-  // ===== СЕРВЕРЫ: загружаем с API =====
   const API = 'https://kjfgzzftse.apps.bot-hosting.cloud';
   const userId = localStorage.getItem('lolka_id');
-  debugLog('user_id: ' + userId);
 
   const guildSelect = document.getElementById('guildSelect');
   const selectedInfo = document.getElementById('selectedInfo');
@@ -273,27 +266,29 @@
   const serverSub = document.getElementById('serverSub');
 
   let MY_GUILDS = [];
+  const channelsCache = {};
+
+  async function fetchWithTimeout(url, opts = {}, timeout = 15000) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+      const r = await fetch(url, { ...opts, signal: controller.signal });
+      return r;
+    } finally {
+      clearTimeout(id);
+    }
+  }
 
   async function loadGuilds() {
     if (!userId) return;
     guildSelect.innerHTML = '<option value="">Загрузка...</option>';
-
     try {
-      const url = `${API}/api/guilds?user_id=${userId}`;
-      debugLog('GET ' + url);
-
-      const r = await fetch(url);
-      debugLog('Статус серверов: ' + r.status);
-
+      const r = await fetchWithTimeout(`${API}/api/guilds?user_id=${userId}`);
       const data = await r.json();
-
       if (!Array.isArray(data)) {
-        debugLog('НЕ МАССИВ: ' + JSON.stringify(data));
         guildSelect.innerHTML = '<option value="">Ошибка загрузки</option>';
         return;
       }
-
-      debugLog('Серверов: ' + data.length);
       MY_GUILDS = data;
       renderGuilds();
     } catch (e) {
@@ -304,19 +299,16 @@
 
   function renderGuilds() {
     guildSelect.innerHTML = '<option value="">— Выбери сервер —</option>';
-
     if (MY_GUILDS.length === 0) {
       guildSelect.innerHTML = '<option value="">Нет доступных серверов</option>';
       return;
     }
-
     MY_GUILDS.forEach(g => {
       const opt = document.createElement('option');
       opt.value = g.id;
       opt.textContent = g.name;
       guildSelect.appendChild(opt);
     });
-
     const savedId = localStorage.getItem('selected_guild');
     if (savedId && MY_GUILDS.some(g => g.id === savedId)) {
       guildSelect.value = savedId;
@@ -333,7 +325,6 @@
     }
     selectedInfo.style.display = 'flex';
     selectedName.textContent = g.name;
-
     serverPanel.style.display = 'block';
     serverTitle.textContent = g.name;
     serverSub.textContent = 'ID: ' + g.id;
@@ -350,11 +341,9 @@
     }
     localStorage.setItem('selected_guild', id);
     showSelected(id);
-
     document.getElementById('welcomePanel').style.display = 'none';
   });
 
-  // ===== ПРИВЕТСТВИЯ =====
   const welcomePanel = document.getElementById('welcomePanel');
 
   function toggleWelcome() {
@@ -367,69 +356,69 @@
     }
   }
 
-  async function loadChannelsInto(selectEl, guildId, selectedId) {
-    selectEl.innerHTML = '<option value="">Загрузка...</option>';
-    try {
-      const url = `${API}/api/guilds/${guildId}/channels`;
-      debugLog('GET ' + url);
-
-      const r = await fetch(url);
-      debugLog('Статус каналов: ' + r.status);
-
-      const chans = await r.json();
-      debugLog('Каналов: ' + (Array.isArray(chans) ? chans.length : 'НЕ МАССИВ'));
-
-      selectEl.innerHTML = '<option value="">— Выбери канал —</option>';
-      if (Array.isArray(chans)) {
-        chans.forEach(c => {
-          const opt = document.createElement('option');
-          opt.value = c.id;
-          opt.textContent = '#' + c.name;
-          if (selectedId && String(selectedId) === String(c.id)) opt.selected = true;
-          selectEl.appendChild(opt);
-        });
-      } else {
-        selectEl.innerHTML = '<option value="">Ошибка: ' + JSON.stringify(chans) + '</option>';
-      }
-    } catch (e) {
-      debugLog('ОШИБКА каналов: ' + e.message);
-      selectEl.innerHTML = '<option value="">Ошибка: ' + e.message + '</option>';
+  async function getChannels(guildId) {
+    if (channelsCache[guildId]) {
+      debugLog('Каналы из кэша: ' + channelsCache[guildId].length);
+      return channelsCache[guildId];
     }
+    debugLog('GET каналов для ' + guildId);
+    const r = await fetchWithTimeout(`${API}/api/guilds/${guildId}/channels`);
+    debugLog('Статус: ' + r.status);
+    const chans = await r.json();
+    if (Array.isArray(chans)) {
+      channelsCache[guildId] = chans;
+      debugLog('Каналов загружено: ' + chans.length);
+    } else {
+      debugLog('НЕ МАССИВ: ' + JSON.stringify(chans));
+      return [];
+    }
+    return chans;
+  }
+
+  function fillSelect(selectEl, chans, selectedId) {
+    selectEl.innerHTML = '<option value="">— Выбери канал —</option>';
+    chans.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = '#' + c.name;
+      if (selectedId && String(selectedId) === String(c.id)) opt.selected = true;
+      selectEl.appendChild(opt);
+    });
   }
 
   async function loadWelcome(guildId) {
-    await loadChannelsInto(document.getElementById('welcomeChannel'), guildId, null);
-    await loadChannelsInto(document.getElementById('goodbyeChannel'), guildId, null);
+    const welcomeSel = document.getElementById('welcomeChannel');
+    const goodbyeSel = document.getElementById('goodbyeChannel');
+    welcomeSel.innerHTML = '<option value="">Загрузка...</option>';
+    goodbyeSel.innerHTML = '<option value="">Загрузка...</option>';
 
     try {
-      const r = await fetch(`${API}/api/welcome/get?guild_id=${guildId}`);
-      const data = await r.json();
+      const chans = await getChannels(guildId);
 
-      if (data.welcome) {
-        document.getElementById('welcomeEnabled').checked = !!data.welcome.enabled;
-        document.getElementById('welcomeText').value = data.welcome.text || '';
-        if (data.welcome.channel_id) {
-          document.getElementById('welcomeChannel').value = data.welcome.channel_id;
-        }
-      } else {
-        document.getElementById('welcomeEnabled').checked = false;
-        document.getElementById('welcomeText').value = '';
-        document.getElementById('welcomeChannel').value = '';
+      let saved = {};
+      try {
+        const r = await fetchWithTimeout(`${API}/api/welcome/get?guild_id=${guildId}`);
+        saved = await r.json();
+      } catch (e) {
+        debugLog('ОШИБКА welcome/get: ' + e.message);
       }
 
-      if (data.goodbye) {
-        document.getElementById('goodbyeEnabled').checked = !!data.goodbye.enabled;
-        document.getElementById('goodbyeText').value = data.goodbye.text || '';
-        if (data.goodbye.channel_id) {
-          document.getElementById('goodbyeChannel').value = data.goodbye.channel_id;
-        }
-      } else {
-        document.getElementById('goodbyeEnabled').checked = false;
-        document.getElementById('goodbyeText').value = '';
-        document.getElementById('goodbyeChannel').value = '';
-      }
+      const w = saved.welcome || {};
+      const g = saved.goodbye || {};
+
+      fillSelect(welcomeSel, chans, w.channel_id);
+      fillSelect(goodbyeSel, chans, g.channel_id);
+
+      document.getElementById('welcomeEnabled').checked = !!w.enabled;
+      document.getElementById('welcomeText').value = w.text || '';
+      document.getElementById('goodbyeEnabled').checked = !!g.enabled;
+      document.getElementById('goodbyeText').value = g.text || '';
+
+      debugLog('Готово, каналов в списке: ' + chans.length);
     } catch (e) {
-      debugLog('ОШИБКА welcome/get: ' + e.message);
+      debugLog('ОШИБКА: ' + e.message);
+      welcomeSel.innerHTML = '<option value="">Ошибка: ' + e.message + '</option>';
+      goodbyeSel.innerHTML = '<option value="">Ошибка: ' + e.message + '</option>';
     }
   }
 
@@ -439,7 +428,6 @@
       showWelcomeMsg('Сначала выбери сервер', true);
       return;
     }
-
     const payload = {
       guild_id: guildId,
       welcome: {
@@ -453,19 +441,15 @@
         text: document.getElementById('goodbyeText').value.trim(),
       }
     };
-
     try {
-      const r = await fetch(`${API}/api/welcome/save`, {
+      const r = await fetchWithTimeout(`${API}/api/welcome/save`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(payload)
       });
       const data = await r.json();
-      if (data.status === 'ok') {
-        showWelcomeMsg('✅ Сохранено!', false);
-      } else {
-        showWelcomeMsg('❌ ' + (data.error || 'Ошибка'), true);
-      }
+      if (data.status === 'ok') showWelcomeMsg('✅ Сохранено!', false);
+      else showWelcomeMsg('❌ ' + (data.error || 'Ошибка'), true);
     } catch (e) {
       showWelcomeMsg('❌ Нет связи с ботом', true);
       debugLog('ОШИБКА save: ' + e.message);
