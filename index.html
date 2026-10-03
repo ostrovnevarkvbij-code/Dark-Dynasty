@@ -70,6 +70,13 @@
           <span class="soon">Скоро</span>
         </div>
 
+        <div class="card" id="welcomeCard">
+          <div class="card-icon">👋</div>
+          <h3>Приветствия</h3>
+          <p>Сообщения при входе и выходе участников.</p>
+          <button class="open-btn" onclick="toggleWelcome()">Настроить</button>
+        </div>
+
         <div class="card disabled">
           <div class="card-icon">📋</div>
           <h3>Логи</h3>
@@ -83,14 +90,72 @@
           <p>Анти-спам, анти-ссылки, анти-капс.</p>
           <span class="soon">Скоро</span>
         </div>
+      </div>
+    </div>
 
-        <div class="card disabled">
+    <!-- Панель настройки приветствий -->
+    <div id="welcomePanel" class="welcome-panel" style="display:none;">
+
+      <div class="welcome-block">
+        <div class="wb-header">
           <div class="card-icon">👋</div>
-          <h3>Приветствия</h3>
-          <p>Сообщения при входе и выходе участников.</p>
-          <span class="soon">Скоро</span>
+          <div>
+            <h3>Приветствие</h3>
+            <p class="wb-sub">Сообщение при входе участника</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="welcomeEnabled">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <label class="field-label">Канал</label>
+        <select id="welcomeChannel" class="select">
+          <option value="">— Выбери канал —</option>
+        </select>
+
+        <label class="field-label">Текст</label>
+        <textarea id="welcomeText" class="textarea" rows="3"
+          placeholder="Добро пожаловать, {user}! Ты {count}-й участник."></textarea>
+
+        <div class="vars-hint">
+          Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code>
         </div>
       </div>
+
+      <div class="welcome-block">
+        <div class="wb-header">
+          <div class="card-icon">🚪</div>
+          <div>
+            <h3>Прощание</h3>
+            <p class="wb-sub">Сообщение при выходе участника</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="goodbyeEnabled">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <label class="field-label">Канал</label>
+        <select id="goodbyeChannel" class="select">
+          <option value="">— Выбери канал —</option>
+        </select>
+
+        <label class="field-label">Текст</label>
+        <textarea id="goodbyeText" class="textarea" rows="3"
+          placeholder="Прощай, {user_name}. Нас стало {count}."></textarea>
+
+        <div class="vars-hint">
+          Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code>
+        </div>
+      </div>
+
+      <div class="welcome-actions">
+        <button class="save-btn" onclick="saveWelcome()">Сохранить</button>
+        <button class="cancel-btn" onclick="toggleWelcome()">Закрыть</button>
+      </div>
+
+      <div class="msg" id="welcomeMsg"></div>
     </div>
   </section>
 
@@ -263,7 +328,123 @@
     }
     localStorage.setItem('selected_guild', id);
     showSelected(id);
+
+    // Закрываем панель приветствий при смене сервера
+    document.getElementById('welcomePanel').style.display = 'none';
   });
+
+  // ===== ПРИВЕТСТВИЯ =====
+  const welcomePanel = document.getElementById('welcomePanel');
+
+  function toggleWelcome() {
+    const opened = welcomePanel.style.display === 'block';
+    welcomePanel.style.display = opened ? 'none' : 'block';
+    if (!opened) {
+      const guildId = guildSelect.value;
+      if (guildId) loadWelcome(guildId);
+    }
+  }
+
+  async function loadChannelsInto(selectEl, guildId, selectedId) {
+    selectEl.innerHTML = '<option value="">Загрузка...</option>';
+    try {
+      const r = await fetch(`${API}/api/guilds/${guildId}/channels`);
+      const chans = await r.json();
+      selectEl.innerHTML = '<option value="">— Выбери канал —</option>';
+      if (Array.isArray(chans)) {
+        chans.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          opt.textContent = '#' + c.name;
+          if (selectedId && String(selectedId) === String(c.id)) opt.selected = true;
+          selectEl.appendChild(opt);
+        });
+      }
+    } catch (e) {
+      selectEl.innerHTML = '<option value="">Ошибка загрузки</option>';
+    }
+  }
+
+  async function loadWelcome(guildId) {
+    await loadChannelsInto(document.getElementById('welcomeChannel'), guildId, null);
+    await loadChannelsInto(document.getElementById('goodbyeChannel'), guildId, null);
+
+    try {
+      const r = await fetch(`${API}/api/welcome/get?guild_id=${guildId}`);
+      const data = await r.json();
+
+      if (data.welcome) {
+        document.getElementById('welcomeEnabled').checked = !!data.welcome.enabled;
+        document.getElementById('welcomeText').value = data.welcome.text || '';
+        if (data.welcome.channel_id) {
+          document.getElementById('welcomeChannel').value = data.welcome.channel_id;
+        }
+      } else {
+        document.getElementById('welcomeEnabled').checked = false;
+        document.getElementById('welcomeText').value = '';
+        document.getElementById('welcomeChannel').value = '';
+      }
+
+      if (data.goodbye) {
+        document.getElementById('goodbyeEnabled').checked = !!data.goodbye.enabled;
+        document.getElementById('goodbyeText').value = data.goodbye.text || '';
+        if (data.goodbye.channel_id) {
+          document.getElementById('goodbyeChannel').value = data.goodbye.channel_id;
+        }
+      } else {
+        document.getElementById('goodbyeEnabled').checked = false;
+        document.getElementById('goodbyeText').value = '';
+        document.getElementById('goodbyeChannel').value = '';
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function saveWelcome() {
+    const guildId = guildSelect.value;
+    if (!guildId) {
+      showWelcomeMsg('Сначала выбери сервер', true);
+      return;
+    }
+
+    const payload = {
+      guild_id: guildId,
+      welcome: {
+        enabled: document.getElementById('welcomeEnabled').checked,
+        channel_id: document.getElementById('welcomeChannel').value,
+        text: document.getElementById('welcomeText').value.trim(),
+      },
+      goodbye: {
+        enabled: document.getElementById('goodbyeEnabled').checked,
+        channel_id: document.getElementById('goodbyeChannel').value,
+        text: document.getElementById('goodbyeText').value.trim(),
+      }
+    };
+
+    try {
+      const r = await fetch(`${API}/api/welcome/save`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const data = await r.json();
+      if (data.status === 'ok') {
+        showWelcomeMsg('✅ Сохранено!', false);
+      } else {
+        showWelcomeMsg('❌ ' + (data.error || 'Ошибка'), true);
+      }
+    } catch (e) {
+      showWelcomeMsg('❌ Нет связи с ботом', true);
+    }
+  }
+
+  function showWelcomeMsg(text, isErr) {
+    const el = document.getElementById('welcomeMsg');
+    el.textContent = text;
+    el.className = 'msg ' + (isErr ? 'err' : 'ok');
+    setTimeout(() => { el.textContent = ''; }, 3000);
+  }
 
   loadGuilds();
 </script>
