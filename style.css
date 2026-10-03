@@ -42,18 +42,7 @@ body::after  { background: rgba(255, 107, 74, 0.18); bottom: -250px; right: -200
   flex-wrap: wrap;
 }
 
-.topbar-simple {
-  justify-content: flex-end;
-}
-
-.logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; letter-spacing: 0.5px; }
-.logo-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  object-fit: cover;
-  box-shadow: 0 8px 25px rgba(255, 45, 45, 0.5);
-}
+.topbar-simple { justify-content: flex-end; }
 
 .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
 
@@ -84,11 +73,7 @@ body::after  { background: rgba(255, 107, 74, 0.18); bottom: -250px; right: -200
 }
 
 /* ===== БЛОК ПОЛЬЗОВАТЕЛЯ ===== */
-.user-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.user-box { display: flex; align-items: center; gap: 8px; }
 
 .whoami {
   color: var(--muted);
@@ -212,8 +197,7 @@ main {
 
 .badge {
   position: absolute; top: 20px; right: 20px;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 11px; font-weight: 700;
   padding: 4px 10px;
   border-radius: 999px;
   background: rgba(255, 45, 45, 0.2);
@@ -257,10 +241,7 @@ main {
   border-color: rgba(255, 45, 45, 0.6);
   box-shadow: 0 0 0 3px rgba(255, 45, 45, 0.15);
 }
-.select option {
-  background: #1a0a0e;
-  color: var(--text);
-}
+.select option { background: #1a0a0e; color: var(--text); }
 
 .selected-info {
   display: flex;
@@ -277,9 +258,7 @@ main {
 .selected-name { color: #ff8080; font-weight: 700; }
 
 /* ===== ПАНЕЛЬ УПРАВЛЕНИЯ СЕРВЕРОМ ===== */
-.server-panel {
-  animation: fadeIn 0.45s ease;
-}
+.server-panel { animation: fadeIn 0.45s ease; }
 
 .server-header {
   display: flex;
@@ -306,21 +285,10 @@ main {
   box-shadow: 0 8px 25px rgba(255, 45, 45, 0.5);
 }
 
-.server-header h2 {
-  font-size: 22px;
-  font-weight: 800;
-  margin-bottom: 4px;
-}
+.server-header h2 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.server-sub { color: var(--muted); font-size: 13px; }
 
-.server-sub {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.card.disabled {
-  opacity: 0.75;
-  cursor: not-allowed;
-}
+.card.disabled { opacity: 0.75; cursor: not-allowed; }
 .card.disabled:hover {
   transform: none;
   border-color: var(--stroke);
@@ -329,10 +297,8 @@ main {
 
 .soon {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 11px;
-  font-weight: 700;
+  top: 20px; right: 20px;
+  font-size: 11px; font-weight: 700;
   padding: 4px 10px;
   border-radius: 999px;
   background: rgba(255, 107, 74, 0.2);
@@ -341,10 +307,161 @@ main {
   letter-spacing: 0.5px;
 }
 
+/* ===== ПРИВЕТСТВИЯ ===== */
+.welcome-panel {
+  margin-top: 24px;
+  animation: fadeIn 0.4s ease;
+}
+
+.welcome-block {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 18px;
+  backdrop-filter: blur(16px);
+}
+
+.wb-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.wb-header .card-icon { margin-bottom: 0; flex-shrink: 0; }
+.wb-header h3 { font-size: 18px; margin-bottom: 2px; }
+.wb-sub { color: var(--muted); font-size: 13px; }
+.wb-header > div:nth-child(2) { flex: 1; }
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  margin-top: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 45, 45, 0.2);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: 0.2s;
+  line-height: 1.5;
+}
+.textarea:focus {
+  border-color: rgba(255, 45, 45, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 45, 45, 0.15);
+}
+.textarea::placeholder { color: rgba(176, 128, 128, 0.5); }
+
+.vars-hint { font-size: 12px; color: var(--muted); margin-top: 10px; }
+.vars-hint code {
+  background: rgba(255, 45, 45, 0.1);
+  border: 1px solid rgba(255, 45, 45, 0.2);
+  color: #ff8080;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: 'Consolas', monospace;
+  font-size: 11px;
+  margin-right: 4px;
+}
+
+.welcome-actions { display: flex; gap: 12px; margin-top: 8px; }
+
+.save-btn, .cancel-btn, .open-btn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+}
+
+.save-btn {
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(255, 45, 45, 0.4);
+}
+.save-btn:hover {
+  box-shadow: 0 10px 30px rgba(255, 45, 45, 0.6);
+  transform: translateY(-1px);
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--stroke);
+  color: var(--muted);
+}
+.cancel-btn:hover {
+  color: var(--text);
+  border-color: rgba(255, 45, 45, 0.4);
+}
+
+.open-btn {
+  background: rgba(255, 45, 45, 0.12);
+  border: 1px solid rgba(255, 45, 45, 0.3);
+  color: #ff8080;
+  padding: 8px 16px;
+  font-size: 13px;
+  margin-top: 8px;
+}
+.open-btn:hover {
+  background: rgba(255, 45, 45, 0.2);
+  border-color: rgba(255, 45, 45, 0.5);
+}
+
+/* ===== ПЕРЕКЛЮЧАТЕЛЬ ===== */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--stroke);
+  border-radius: 999px;
+  transition: 0.3s;
+}
+.slider::before {
+  content: '';
+  position: absolute;
+  height: 20px; width: 20px;
+  left: 3px; bottom: 3px;
+  background: #b08080;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.switch input:checked + .slider {
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  border-color: transparent;
+}
+.switch input:checked + .slider::before {
+  transform: translateX(22px);
+  background: #fff;
+}
+
 /* ===== АДАПТИВ ===== */
 @media (max-width: 600px) {
   .topbar { padding: 14px 16px; gap: 12px; }
   .tabs-main { justify-content: center; }
   main { padding: 24px 14px 60px; }
   .user-box { width: 100%; justify-content: center; }
-}
+    }
