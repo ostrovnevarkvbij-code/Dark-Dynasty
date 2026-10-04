@@ -465,3 +465,226 @@ main {
   main { padding: 24px 14px 60px; }
   .user-box { width: 100%; justify-content: center; }
     }
+/* ==================== УСТАНОВКА ==================== */
+
+.install-hero {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  margin-bottom: 32px;
+  animation: fadeIn 0.5s ease;
+}
+
+.install-hero-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 8px 25px rgba(255, 45, 45, 0.5));
+}
+
+.install-hero h2 {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 800;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #fff, #ff5555);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.install-hero p {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 500px;
+  margin: 0 auto 24px;
+}
+
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 12px 35px rgba(255, 45, 45, 0.5);
+  transition: 0.25s;
+}
+
+.install-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 45px rgba(255, 45, 45, 0.7);
+}
+
+.install-btn span {
+  font-size: 20px;
+}
+
+/* ===== ШАГИ ===== */
+
+.steps-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  margin-bottom: 32px;
+}
+
+.step-card {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 20px;
+  padding: 28px 24px 24px;
+  backdrop-filter: blur(16px);
+  transition: 0.25s;
+  overflow: hidden;
+}
+
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--brand), var(--brand2));
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 45, 45, 0.35);
+  box-shadow: 0 20px 60px rgba(255, 45, 45, 0.25);
+}
+
+.step-card:hover::before {
+  opacity: 1;
+}
+
+.step-num {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 6px 20px rgba(255, 45, 45, 0.5);
+}
+
+.step-icon {
+  font-size: 40px;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 4px 12px rgba(255, 45, 45, 0.3));
+}
+
+.step-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.step-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.step-card p b {
+  color: #ff8080;
+  font-family: 'Consolas', monospace;
+}
+
+/* ===== ПОДСКАЗКИ ===== */
+
+.install-tips,
+.install-faq {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(16px);
+  animation: fadeIn 0.6s ease;
+}
+
+.install-tips h3,
+.install-faq h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+
+.install-tips ul {
+  list-style: none;
+  padding: 0;
+}
+
+.install-tips li {
+  position: relative;
+  padding: 10px 0 10px 28px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(255, 45, 45, 0.08);
+}
+
+.install-tips li:last-child {
+  border-bottom: none;
+}
+
+.install-tips li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  color: var(--brand);
+  font-size: 12px;
+}
+
+.install-tips li b {
+  color: #ff8080;
+  font-weight: 700;
+}
+
+/* ===== FAQ ===== */
+
+.faq-item {
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 45, 45, 0.08);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-q {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ff8080;
+  margin-bottom: 6px;
+}
+
+.faq-a {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Адаптив */
+@media (max-width: 600px) {
+  .install-hero { padding: 28px 18px; }
+  .install-btn { padding: 14px 24px; font-size: 15px; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .install-tips, .install-faq { padding: 22px 18px; }
+}
