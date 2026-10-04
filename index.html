@@ -63,11 +63,11 @@
       </div>
 
       <div class="grid">
-        <div class="card disabled">
+        <div class="card" id="settingsCard">
           <div class="card-icon">⚙️</div>
           <h3>Настройки</h3>
-          <p>Префикс, язык, авто-роли и другое.</p>
-          <span class="soon">Скоро</span>
+          <p>Авто-роль, Anti-caps, защита от ботов.</p>
+          <button class="open-btn" onclick="toggleSettings()">Настроить</button>
         </div>
 
         <div class="card" id="welcomeCard">
@@ -87,13 +87,75 @@
         <div class="card disabled">
           <div class="card-icon">🛡️</div>
           <h3>Автомодерация</h3>
-          <p>Анти-спам, анти-ссылки, анти-капс.</p>
+          <p>Anti-invite, anti-link, анти-мат.</p>
           <span class="soon">Скоро</span>
         </div>
       </div>
     </div>
 
-    <!-- Панель настройки приветствий -->
+    <!-- ПАНЕЛЬ НАСТРОЕК -->
+    <div id="settingsPanel" class="welcome-panel" style="display:none;">
+      <div class="welcome-block">
+        <div class="wb-header">
+          <div class="card-icon">⚙️</div>
+          <div>
+            <h3>Настройки сервера</h3>
+            <p class="wb-sub">Авто-роль, защита чата, защита от ботов</p>
+          </div>
+        </div>
+
+        <label class="field-label">Авто-роль при входе</label>
+        <select id="autoRoleSelect" class="select">
+          <option value="">— Не выдавать —</option>
+        </select>
+        <div class="vars-hint">Роль, которая автоматически выдаётся новому участнику при входе на сервер.</div>
+      </div>
+
+      <div class="welcome-block">
+        <div class="wb-header">
+          <div class="card-icon">🔠</div>
+          <div>
+            <h3>Anti-caps</h3>
+            <p class="wb-sub">Защита от сообщений ЗАГЛАВНЫМИ</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="antiCapsEnabled">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="vars-hint">
+          Если сообщение содержит <b>больше 70% заглавных букв</b> и длиннее 10 символов — бот его удалит и предупредит автора.
+          <br><b>Пример:</b> «ПРИВЕТ ВСЕМ КАК ДЕЛА» — удалится, «Привет всем» — нет.
+        </div>
+      </div>
+
+      <div class="welcome-block">
+        <div class="wb-header">
+          <div class="card-icon">🤖</div>
+          <div>
+            <h3>Защита от ботов</h3>
+            <p class="wb-sub">Автоматически кикать сторонних ботов</p>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="antiBotsEnabled">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="vars-hint">
+          Когда включено — любого бота, добавленного на сервер, <b>кроме Dark Arbitr Bot</b>, бот сразу кикнет.
+          <br><b>Зачем:</b> защищает от рейд-ботов, которые пишут спам и воруют данные.
+        </div>
+      </div>
+
+      <div class="welcome-actions">
+        <button class="save-btn" onclick="saveSettings()">Сохранить</button>
+        <button class="cancel-btn" onclick="toggleSettings()">Закрыть</button>
+      </div>
+
+      <div class="msg" id="settingsMsg"></div>
+    </div>
+
+    <!-- ПАНЕЛЬ ПРИВЕТСТВИЙ -->
     <div id="welcomePanel" class="welcome-panel" style="display:none;">
 
       <div class="welcome-block">
@@ -168,7 +230,6 @@
         <p>100 HP у каждого. Урон 10–25, шанс крита 20%. Кто упадёт первым — проиграл.</p>
         <span class="cmd">/дуэль @user</span>
       </div>
-
       <div class="card">
         <div class="card-icon">💥</div>
         <h3>Атака</h3>
@@ -181,47 +242,12 @@
   <!-- МОДЕРАЦИЯ -->
   <section id="moderation" class="section">
     <div class="grid">
-      <div class="card">
-        <div class="card-icon">🔨</div>
-        <h3>Бан</h3>
-        <p>Забанить участника с указанием причины и срока.</p>
-        <span class="cmd">/бан @user</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">👢</div>
-        <h3>Кик</h3>
-        <p>Выгнать участника с сервера без блокировки.</p>
-        <span class="cmd">/кик @user</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🔇</div>
-        <h3>Мут</h3>
-        <p>Временно заглушить нарушителя в чате.</p>
-        <span class="cmd">/мут @user</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">🔊</div>
-        <h3>Размут</h3>
-        <p>Снять мут с участника досрочно.</p>
-        <span class="cmd">/размут @user</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">⚠️</div>
-        <h3>Варн</h3>
-        <p>Выдать предупреждение участнику.</p>
-        <span class="cmd">/варн @user</span>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">✅</div>
-        <h3>Снять варн</h3>
-        <p>Убрать предупреждение с участника.</p>
-        <span class="cmd">/снять_варн @user</span>
-      </div>
+      <div class="card"><div class="card-icon">🔨</div><h3>Бан</h3><p>Забанить участника с указанием причины и срока.</p><span class="cmd">/бан @user</span></div>
+      <div class="card"><div class="card-icon">👢</div><h3>Кик</h3><p>Выгнать участника с сервера без блокировки.</p><span class="cmd">/кик @user</span></div>
+      <div class="card"><div class="card-icon">🔇</div><h3>Мут</h3><p>Временно заглушить нарушителя в чате.</p><span class="cmd">/мут @user</span></div>
+      <div class="card"><div class="card-icon">🔊</div><h3>Размут</h3><p>Снять мут с участника досрочно.</p><span class="cmd">/размут @user</span></div>
+      <div class="card"><div class="card-icon">⚠️</div><h3>Варн</h3><p>Выдать предупреждение участнику.</p><span class="cmd">/варн @user</span></div>
+      <div class="card"><div class="card-icon">✅</div><h3>Снять варн</h3><p>Убрать предупреждение с участника.</p><span class="cmd">/снять_варн @user</span></div>
     </div>
   </section>
 
@@ -267,6 +293,7 @@
 
   let MY_GUILDS = [];
   const channelsCache = {};
+  const rolesCache = {};
 
   async function fetchJSON(url, opts = {}, timeout = 30000) {
     const controller = new AbortController();
@@ -344,13 +371,121 @@
     localStorage.setItem('selected_guild', id);
     showSelected(id);
     document.getElementById('welcomePanel').style.display = 'none';
+    document.getElementById('settingsPanel').style.display = 'none';
   });
 
+  // ========== НАСТРОЙКИ ==========
+  const settingsPanel = document.getElementById('settingsPanel');
+
+  function toggleSettings() {
+    const opened = settingsPanel.style.display === 'block';
+    settingsPanel.style.display = opened ? 'none' : 'block';
+    document.getElementById('welcomePanel').style.display = 'none';
+    if (!opened) {
+      const guildId = guildSelect.value;
+      if (guildId) loadSettings(guildId);
+      else debugLog('Не выбран сервер!');
+    }
+  }
+
+  async function getRoles(guildId) {
+    if (rolesCache[guildId]) return rolesCache[guildId];
+    debugLog('GET ролей для ' + guildId);
+    const roles = await fetchJSON(`${API}/api/guilds/${guildId}/roles`);
+    if (Array.isArray(roles)) {
+      rolesCache[guildId] = roles;
+      debugLog('Ролей загружено: ' + roles.length);
+    }
+    return roles || [];
+  }
+
+  function fillRoles(selectEl, roles, selectedId) {
+    selectEl.innerHTML = '<option value="">— Не выбрана —</option>';
+    roles.forEach(r => {
+      const opt = document.createElement('option');
+      opt.value = r.id;
+      opt.textContent = '@' + r.name;
+      if (selectedId && String(selectedId) === String(r.id)) opt.selected = true;
+      selectEl.appendChild(opt);
+    });
+  }
+
+  async function loadSettings(guildId) {
+    const autoSel = document.getElementById('autoRoleSelect');
+    autoSel.innerHTML = '<option value="">Загрузка...</option>';
+
+    try {
+      const roles = await getRoles(guildId);
+      let saved = {};
+      try {
+        saved = await fetchJSON(`${API}/api/settings/get?guild_id=${guildId}`) || {};
+      } catch (e) {
+        debugLog('ОШИБКА settings/get: ' + e.message);
+      }
+
+      fillRoles(autoSel, roles, saved.auto_role_id);
+      document.getElementById('antiCapsEnabled').checked = !!saved.anti_caps_enabled;
+      document.getElementById('antiBotsEnabled').checked = !!saved.anti_bots_enabled;
+      debugLog('Настройки загружены');
+    } catch (e) {
+      debugLog('ОШИБКА: ' + e.message);
+      autoSel.innerHTML = '<option value="">Ошибка</option>';
+    }
+  }
+
+  async function saveSettings() {
+    const guildId = guildSelect.value;
+    if (!guildId) {
+      showSettingsMsg('Сначала выбери сервер', true);
+      return;
+    }
+    const payload = {
+      guild_id: guildId,
+      auto_role_id: document.getElementById('autoRoleSelect').value || null,
+      anti_caps_enabled: document.getElementById('antiCapsEnabled').checked,
+      anti_bots_enabled: document.getElementById('antiBotsEnabled').checked,
+    };
+
+    let lastError = '';
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        debugLog(`Попытка ${attempt} сохранения настроек...`);
+        const data = await fetchJSON(`${API}/api/settings/save`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload)
+        }, 20000);
+
+        if (data && data.status === 'ok') {
+          showSettingsMsg('✅ Сохранено!', false);
+          debugLog('Настройки сохранены');
+          return;
+        } else {
+          lastError = (data && data.error) || 'Неизвестная ошибка';
+        }
+      } catch (e) {
+        lastError = e.message;
+        debugLog(`ОШИБКА (попытка ${attempt}): ${e.message}`);
+        if (attempt < 3) await new Promise(r => setTimeout(r, 1500));
+      }
+    }
+    showSettingsMsg('❌ ' + lastError, true);
+  }
+
+  function showSettingsMsg(text, isErr) {
+    const el = document.getElementById('settingsMsg');
+    el.textContent = text;
+    el.className = 'msg ' + (isErr ? 'err' : 'ok');
+    setTimeout(() => { el.textContent = ''; }, 3000);
+  }
+
+  // ========== ПРИВЕТСТВИЯ ==========
   const welcomePanel = document.getElementById('welcomePanel');
 
   function toggleWelcome() {
     const opened = welcomePanel.style.display === 'block';
     welcomePanel.style.display = opened ? 'none' : 'block';
+    document.getElementById('settingsPanel').style.display = 'none';
     if (!opened) {
       const guildId = guildSelect.value;
       if (guildId) loadWelcome(guildId);
@@ -359,19 +494,12 @@
   }
 
   async function getChannels(guildId) {
-    if (channelsCache[guildId]) {
-      debugLog('Каналы из кэша: ' + channelsCache[guildId].length);
-      return channelsCache[guildId];
-    }
+    if (channelsCache[guildId]) return channelsCache[guildId];
     debugLog('GET каналов для ' + guildId);
     const chans = await fetchJSON(`${API}/api/guilds/${guildId}/channels`);
-    debugLog('Получено: ' + (Array.isArray(chans) ? chans.length : 'НЕ МАССИВ'));
-    if (Array.isArray(chans)) {
-      channelsCache[guildId] = chans;
-    } else {
-      return [];
-    }
-    return chans;
+    debugLog('Получено каналов: ' + (Array.isArray(chans) ? chans.length : 0));
+    if (Array.isArray(chans)) channelsCache[guildId] = chans;
+    return chans || [];
   }
 
   function fillSelect(selectEl, chans, selectedId) {
@@ -393,7 +521,6 @@
 
     try {
       const chans = await getChannels(guildId);
-
       let saved = {};
       try {
         saved = await fetchJSON(`${API}/api/welcome/get?guild_id=${guildId}`) || {};
@@ -411,12 +538,9 @@
       document.getElementById('welcomeText').value = w.text || '';
       document.getElementById('goodbyeEnabled').checked = !!g.enabled;
       document.getElementById('goodbyeText').value = g.text || '';
-
-      debugLog('Готово, каналов в списке: ' + chans.length);
+      debugLog('Приветствия загружены');
     } catch (e) {
       debugLog('ОШИБКА: ' + e.message);
-      welcomeSel.innerHTML = '<option value="">Ошибка: ' + e.message + '</option>';
-      goodbyeSel.innerHTML = '<option value="">Ошибка: ' + e.message + '</option>';
     }
   }
 
@@ -434,48 +558,4 @@
         text: document.getElementById('welcomeText').value.trim(),
       },
       goodbye: {
-        enabled: document.getElementById('goodbyeEnabled').checked,
-        channel_id: document.getElementById('goodbyeChannel').value,
-        text: document.getElementById('goodbyeText').value.trim(),
-      }
-    };
-
-    let lastError = '';
-    for (let attempt = 1; attempt <= 3; attempt++) {
-      try {
-        debugLog(`Попытка ${attempt} сохранения...`);
-        const data = await fetchJSON(`${API}/api/welcome/save`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(payload)
-        }, 20000);
-
-        if (data && data.status === 'ok') {
-          showWelcomeMsg('✅ Сохранено!', false);
-          debugLog('Сохранение успешно');
-          return;
-        } else {
-          lastError = (data && data.error) || 'Неизвестная ошибка';
-          debugLog('Ответ сервера: ' + JSON.stringify(data));
-        }
-      } catch (e) {
-        lastError = e.message;
-        debugLog(`ОШИБКА save (попытка ${attempt}): ${e.message}`);
-        if (attempt < 3) await new Promise(r => setTimeout(r, 1500));
-      }
-    }
-    showWelcomeMsg('❌ ' + lastError, true);
-  }
-
-  function showWelcomeMsg(text, isErr) {
-    const el = document.getElementById('welcomeMsg');
-    el.textContent = text;
-    el.className = 'msg ' + (isErr ? 'err' : 'ok');
-    setTimeout(() => { el.textContent = ''; }, 3000);
-  }
-
-  loadGuilds();
-</script>
-
-</body>
-</html>
+        enabled: document.getElementById('goodbyeEnabled').ch
