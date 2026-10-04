@@ -15,11 +15,13 @@
   }
 </script>
 
-<header class="topbar topbar-simple">
-  <div class="user-box">
-    <span class="whoami" id="whoami"></span>
-    <button class="logout-btn" onclick="localStorage.clear(); location.href='auth.html'">Выйти</button>
-  </div>
+<header class="topbar">
+  <button class="avatar-btn" id="avatarBtn" onclick="openProfile()" title="Профиль">
+    <img id="avatarImg" alt="">
+    <span id="avatarLetter">?</span>
+  </button>
+  <div class="topbar-spacer"></div>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Сменить тему">🌙</button>
 </header>
 
 <main>
@@ -27,6 +29,21 @@
   <div class="hero">
     <h1>Dark Arbitr Bot</h1>
     <p>Правосудие вершится здесь.</p>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <span id="statGuilds">—</span>
+        <small>Серверов</small>
+      </div>
+      <div class="stat-box">
+        <span id="statMembers">—</span>
+        <small>Пользователей</small>
+      </div>
+      <div class="stat-box">
+        <span id="statCommands">—</span>
+        <small>Команд</small>
+      </div>
+    </div>
   </div>
 
   <nav class="tabs tabs-main">
@@ -49,49 +66,42 @@
     </div>
 
     <div class="steps-grid">
-
       <div class="step-card">
         <div class="step-num">1</div>
         <div class="step-icon">🔗</div>
         <h3>Открой ссылку</h3>
         <p>Нажми на кнопку установки выше. Откроется страница авторизации бота.</p>
       </div>
-
       <div class="step-card">
         <div class="step-num">2</div>
         <div class="step-icon">👤</div>
         <h3>Войди в Lolka</h3>
         <p>Авторизуйся в своём аккаунте Lolka, если ещё не вошёл.</p>
       </div>
-
       <div class="step-card">
         <div class="step-num">3</div>
         <div class="step-icon">🌐</div>
         <h3>Выбери сервер</h3>
         <p>В списке выбери сервер, куда хочешь добавить Dark Arbitr Bot.</p>
       </div>
-
       <div class="step-card">
         <div class="step-num">4</div>
         <div class="step-icon">🔐</div>
         <h3>Проверь права</h3>
         <p>Нужны разрешения: сообщения, роли, каналы, модерация, вебхуки.</p>
       </div>
-
       <div class="step-card">
         <div class="step-num">5</div>
         <div class="step-icon">✅</div>
         <h3>Авторизуй</h3>
         <p>Нажми «Авторизовать» — бот появится на твоём сервере.</p>
       </div>
-
       <div class="step-card">
         <div class="step-num">6</div>
         <div class="step-icon">💬</div>
         <h3>Напиши боту</h3>
         <p>Отправь <b>@darkarbitr_bot</b> сообщение — он ответит.</p>
       </div>
-
     </div>
 
     <div class="install-tips">
@@ -106,29 +116,23 @@
 
     <div class="install-faq">
       <h3>❓ Частые вопросы</h3>
-
       <div class="faq-item">
         <div class="faq-q">Бот не появляется на сервере — что делать?</div>
         <div class="faq-a">Проверь, что у тебя есть права «Управлять сервером». Если всё в порядке — подожди минуту и обнови страницу.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q">Можно ли использовать бота бесплатно?</div>
         <div class="faq-a">Да. Dark Arbitr полностью бесплатный. Платных функций нет.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q">Что делать, если бот не отвечает?</div>
         <div class="faq-a">Проверь, есть ли у бота право «Отправлять сообщения» в нужном канале. Также убедись, что бот не отключён на сервере.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q">Как удалить бота?</div>
         <div class="faq-a">Зайди в настройки сервера → «Участники» → найди Dark Arbitr Bot → «Кикнуть».</div>
       </div>
-
     </div>
-
   </section>
 
   <!-- СЕРВЕР -->
@@ -138,11 +142,9 @@
         <div class="card-icon">🌐</div>
         <h3>Выбери сервер</h3>
         <p>Здесь появятся все серверы, где есть Dark Arbitr Bot и где ты имеешь права управления.</p>
-
         <select id="guildSelect" class="select">
           <option value="">Загрузка...</option>
         </select>
-
         <div class="selected-info" id="selectedInfo" style="display:none;">
           <span class="selected-label">Выбран:</span>
           <span class="selected-name" id="selectedName"></span>
@@ -166,21 +168,18 @@
           <p>Авто-роль, Anti-caps, защита от ботов.</p>
           <button class="open-btn" onclick="toggleSettings()">Настроить</button>
         </div>
-
         <div class="card" id="welcomeCard">
           <div class="card-icon">👋</div>
           <h3>Приветствия</h3>
           <p>Сообщения при входе и выходе участников.</p>
           <button class="open-btn" onclick="toggleWelcome()">Настроить</button>
         </div>
-
         <div class="card disabled">
           <div class="card-icon">📋</div>
           <h3>Логи</h3>
           <p>Выбор канала, куда бот пишет события.</p>
           <span class="soon">Скоро</span>
         </div>
-
         <div class="card disabled">
           <div class="card-icon">🛡️</div>
           <h3>Автомодерация</h3>
@@ -190,7 +189,6 @@
       </div>
     </div>
 
-    <!-- ПАНЕЛЬ НАСТРОЕК -->
     <div id="settingsPanel" class="welcome-panel" style="display:none;">
       <div class="welcome-block">
         <div class="wb-header">
@@ -200,7 +198,6 @@
             <p class="wb-sub">Авто-роль, защита чата, защита от ботов</p>
           </div>
         </div>
-
         <label class="field-label">Авто-роль при входе</label>
         <select id="autoRoleSelect" class="select">
           <option value="">— Не выдавать —</option>
@@ -248,13 +245,10 @@
         <button class="save-btn" onclick="saveSettings()">Сохранить</button>
         <button class="cancel-btn" onclick="toggleSettings()">Закрыть</button>
       </div>
-
       <div class="msg" id="settingsMsg"></div>
     </div>
 
-    <!-- ПАНЕЛЬ ПРИВЕТСТВИЙ -->
     <div id="welcomePanel" class="welcome-panel" style="display:none;">
-
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">👋</div>
@@ -267,16 +261,13 @@
             <span class="slider"></span>
           </label>
         </div>
-
         <label class="field-label">Канал</label>
         <select id="welcomeChannel" class="select">
           <option value="">— Выбери канал —</option>
         </select>
-
         <label class="field-label">Текст</label>
         <textarea id="welcomeText" class="textarea" rows="3"
           placeholder="Добро пожаловать, {user}! Ты {count}-й участник."></textarea>
-
         <div class="vars-hint">
           Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code>
         </div>
@@ -294,16 +285,13 @@
             <span class="slider"></span>
           </label>
         </div>
-
         <label class="field-label">Канал</label>
         <select id="goodbyeChannel" class="select">
           <option value="">— Выбери канал —</option>
         </select>
-
         <label class="field-label">Текст</label>
         <textarea id="goodbyeText" class="textarea" rows="3"
           placeholder="Прощай, {user_name}. Нас стало {count}."></textarea>
-
         <div class="vars-hint">
           Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code>
         </div>
@@ -313,7 +301,6 @@
         <button class="save-btn" onclick="saveWelcome()">Сохранить</button>
         <button class="cancel-btn" onclick="toggleWelcome()">Закрыть</button>
       </div>
-
       <div class="msg" id="welcomeMsg"></div>
     </div>
   </section>
@@ -350,7 +337,31 @@
 
 </main>
 
+<!-- ПРОФИЛЬ (модальное окно) -->
+<div id="profileModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeProfile()">✕</button>
+
+    <div class="profile-avatar">
+      <img id="profileAvatarImg" alt="">
+      <span id="profileAvatarLetter">?</span>
+    </div>
+
+    <h2 id="profileName">Загрузка...</h2>
+    <p class="profile-id" id="profileId">ID: —</p>
+
+    <div class="profile-stats">
+      <div class="profile-stat">
+        <span id="profileGuilds">—</span>
+        <small>Серверов</small>
+      </div>
+    </div>
+
+    <button class="logout-btn-full" onclick="logout()">🚪 Выйти из аккаунта</button>
+  </div>
+</div>
+
 <script src="script.js"></script>
 
 </body>
-</html>
+      </html>
