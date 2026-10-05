@@ -1,4 +1,4 @@
-const API = 'https://kjfgzzftse.apps.bot-hosting.cloud';
+const API = 'https://dark-arbit-proxy.ostrokadkima.workers.dev';
 const myId = localStorage.getItem('lolka_id');
 
 let selectedDays = 0;
