@@ -29,7 +29,6 @@
   <div class="hero">
     <h1>Dark Arbitr Bot</h1>
     <p>Правосудие вершится здесь.</p>
-
     <div class="stats-row">
       <div class="stat-box"><span id="statGuilds">—</span><small>Серверов</small></div>
       <div class="stat-box"><span id="statMembers">—</span><small>Пользователей</small></div>
@@ -40,6 +39,7 @@
   <nav class="tabs tabs-main">
     <button class="tab active" data-target="install">📥 Установка</button>
     <button class="tab" data-target="event">🎉 Ивент</button>
+    <button class="tab" data-target="chat">💬 Чат</button>
     <button class="tab" data-target="admins">👑 Администрация</button>
     <button class="tab" data-target="server">🖥️ Сервер</button>
     <button class="tab" data-target="minigames">🎮 Мини игры</button>
@@ -56,7 +56,6 @@
         <span>➕</span> Добавить бота на сервер
       </a>
     </div>
-
     <div class="steps-grid">
       <div class="step-card"><div class="step-num">1</div><div class="step-icon">🔗</div><h3>Открой ссылку</h3><p>Нажми на кнопку установки выше.</p></div>
       <div class="step-card"><div class="step-num">2</div><div class="step-icon">👤</div><h3>Войди в Lolka</h3><p>Авторизуйся в аккаунте.</p></div>
@@ -65,7 +64,6 @@
       <div class="step-card"><div class="step-num">5</div><div class="step-icon">✅</div><h3>Авторизуй</h3><p>Бот появится на сервере.</p></div>
       <div class="step-card"><div class="step-num">6</div><div class="step-icon">💬</div><h3>Напиши боту</h3><p>Отправь @darkarbitr_bot — ответит.</p></div>
     </div>
-
     <div class="install-tips">
       <h3>💡 Полезно знать</h3>
       <ul>
@@ -75,7 +73,6 @@
         <li><b>Приватные данные защищены</b> — бот видит только нужное.</li>
       </ul>
     </div>
-
     <div class="install-faq">
       <h3>❓ Частые вопросы</h3>
       <div class="faq-item"><div class="faq-q">Бот не появляется — что делать?</div><div class="faq-a">Проверь права «Управлять сервером».</div></div>
@@ -90,33 +87,43 @@
     <div id="eventContent">
       <div class="event-loading">Загрузка ивента...</div>
     </div>
-
     <div class="lb-grid">
       <div class="lb-card">
         <div class="lb-header">
           <div class="lb-icon">⚔️</div>
-          <div>
-            <h3>Топ по дуэлям</h3>
-            <p class="wb-sub">Кто больше сражался</p>
-          </div>
+          <div><h3>Топ по дуэлям</h3><p class="wb-sub">Кто больше сражался</p></div>
         </div>
-        <div id="lbDuels" class="lb-list">
-          <div class="lb-empty">Загрузка...</div>
-        </div>
+        <div id="lbDuels" class="lb-list"><div class="lb-empty">Загрузка...</div></div>
       </div>
-
       <div class="lb-card">
         <div class="lb-header">
           <div class="lb-icon">🧮</div>
-          <div>
-            <h3>Топ по математике</h3>
-            <p class="wb-sub">Кто больше решил задач</p>
-          </div>
+          <div><h3>Топ по математике</h3><p class="wb-sub">Кто больше решил задач</p></div>
         </div>
-        <div id="lbMath" class="lb-list">
-          <div class="lb-empty">Загрузка...</div>
-        </div>
+        <div id="lbMath" class="lb-list"><div class="lb-empty">Загрузка...</div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- ЧАТ -->
+  <section id="chat" class="section">
+    <div class="chat-container">
+      <div class="chat-header">
+        <div class="chat-header-icon">💬</div>
+        <div>
+          <h3>Общий чат сайта</h3>
+          <p class="wb-sub"><span id="chatCount">0</span> сообщений</p>
+        </div>
+        <button class="chat-refresh" onclick="loadChat()" title="Обновить">🔄</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-empty">Загрузка...</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Напиши сообщение..." maxlength="1000">
+        <button class="chat-send" onclick="sendChat()" title="Отправить">📤</button>
+      </div>
+      <div class="msg" id="chatMsg"></div>
     </div>
   </section>
 
@@ -124,14 +131,9 @@
   <section id="admins" class="section">
     <div class="admins-header">
       <div class="card-icon">👑</div>
-      <div>
-        <h2>Администрация проекта</h2>
-        <p class="wb-sub">Люди, которые делают Dark Arbitr лучше</p>
-      </div>
+      <div><h2>Администрация проекта</h2><p class="wb-sub">Люди, которые делают Dark Arbitr лучше</p></div>
     </div>
-    <div class="admins-grid" id="adminsGrid">
-      <div class="admins-loading">Загрузка...</div>
-    </div>
+    <div class="admins-grid" id="adminsGrid"><div class="admins-loading">Загрузка...</div></div>
   </section>
 
   <!-- СЕРВЕР -->
@@ -141,78 +143,39 @@
         <div class="card-icon">🌐</div>
         <h3>Выбери сервер</h3>
         <p>Здесь появятся все серверы, где есть бот и где ты имеешь права управления.</p>
-        <select id="guildSelect" class="select">
-          <option value="">Загрузка...</option>
-        </select>
+        <select id="guildSelect" class="select"><option value="">Загрузка...</option></select>
         <div class="selected-info" id="selectedInfo" style="display:none;">
           <span class="selected-label">Выбран:</span>
           <span class="selected-name" id="selectedName"></span>
         </div>
       </div>
     </div>
-
     <div id="serverPanel" class="server-panel" style="display:none;">
       <div class="server-header">
         <div class="server-avatar" id="serverAvatar">🌐</div>
-        <div>
-          <h2 id="serverTitle">Сервер</h2>
-          <p class="server-sub" id="serverSub">Управление сервером</p>
-        </div>
+        <div><h2 id="serverTitle">Сервер</h2><p class="server-sub" id="serverSub">Управление сервером</p></div>
       </div>
-
       <div class="grid">
-        <div class="card" id="settingsCard">
-          <div class="card-icon">⚙️</div>
-          <h3>Настройки</h3>
-          <p>Авто-роль, Anti-caps, защита от ботов.</p>
-          <button class="open-btn" onclick="toggleSettings()">Настроить</button>
-        </div>
-        <div class="card" id="welcomeCard">
-          <div class="card-icon">👋</div>
-          <h3>Приветствия</h3>
-          <p>Сообщения при входе и выходе участников.</p>
-          <button class="open-btn" onclick="toggleWelcome()">Настроить</button>
-        </div>
-        <div class="card" id="automodCard">
-          <div class="card-icon">🛡️</div>
-          <h3>Автомодерация</h3>
-          <p>Anti-invite, anti-link, anti-spam, слова.</p>
-          <button class="open-btn" onclick="toggleAutomod()">Настроить</button>
-        </div>
-        <div class="card" id="logsCard">
-          <div class="card-icon">📋</div>
-          <h3>Логи</h3>
-          <p>Отдельный канал для каждого события.</p>
-          <button class="open-btn" onclick="toggleLogs()">Настроить</button>
-        </div>
+        <div class="card" id="settingsCard"><div class="card-icon">⚙️</div><h3>Настройки</h3><p>Авто-роль, Anti-caps, защита от ботов.</p><button class="open-btn" onclick="toggleSettings()">Настроить</button></div>
+        <div class="card" id="welcomeCard"><div class="card-icon">👋</div><h3>Приветствия</h3><p>Сообщения при входе и выходе участников.</p><button class="open-btn" onclick="toggleWelcome()">Настроить</button></div>
+        <div class="card" id="automodCard"><div class="card-icon">🛡️</div><h3>Автомодерация</h3><p>Anti-invite, anti-link, anti-spam, слова.</p><button class="open-btn" onclick="toggleAutomod()">Настроить</button></div>
+        <div class="card" id="logsCard"><div class="card-icon">📋</div><h3>Логи</h3><p>Отдельный канал для каждого события.</p><button class="open-btn" onclick="toggleLogs()">Настроить</button></div>
       </div>
     </div>
 
-    <!-- ПАНЕЛЬ НАСТРОЕК -->
     <div id="settingsPanel" class="welcome-panel" style="display:none;">
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">⚙️</div>
-          <div><h3>Настройки сервера</h3><p class="wb-sub">Авто-роль, защита чата</p></div>
-        </div>
+        <div class="wb-header"><div class="card-icon">⚙️</div><div><h3>Настройки сервера</h3><p class="wb-sub">Авто-роль, защита чата</p></div></div>
         <label class="field-label">Авто-роль при входе</label>
         <select id="autoRoleSelect" class="select"><option value="">— Не выдавать —</option></select>
         <div class="vars-hint">Роль, выдаваемая новому участнику.</div>
       </div>
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">🔠</div>
-          <div><h3>Anti-caps</h3><p class="wb-sub">Защита от ЗАГЛАВНЫХ</p></div>
-          <label class="switch"><input type="checkbox" id="antiCapsEnabled"><span class="slider"></span></label>
-        </div>
+        <div class="wb-header"><div class="card-icon">🔠</div><div><h3>Anti-caps</h3><p class="wb-sub">Защита от ЗАГЛАВНЫХ</p></div><label class="switch"><input type="checkbox" id="antiCapsEnabled"><span class="slider"></span></label></div>
         <div class="vars-hint">Удаляет сообщения с >70% заглавных букв.</div>
       </div>
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">🤖</div>
-          <div><h3>Защита от ботов</h3><p class="wb-sub">Кикать сторонних ботов</p></div>
-          <label class="switch"><input type="checkbox" id="antiBotsEnabled"><span class="slider"></span></label>
-        </div>
+        <div class="wb-header"><div class="card-icon">🤖</div><div><h3>Защита от ботов</h3><p class="wb-sub">Кикать сторонних ботов</p></div><label class="switch"><input type="checkbox" id="antiBotsEnabled"><span class="slider"></span></label></div>
         <div class="vars-hint">Автоматически кикает любого бота, кроме Dark Arbitr.</div>
       </div>
       <div class="welcome-actions">
@@ -222,37 +185,21 @@
       <div class="msg" id="settingsMsg"></div>
     </div>
 
-    <!-- ПАНЕЛЬ АВТОМОДЕРАЦИИ -->
     <div id="automodPanel" class="welcome-panel" style="display:none;">
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">📨</div>
-          <div><h3>Anti-invite</h3><p class="wb-sub">Защита от приглашений</p></div>
-          <label class="switch"><input type="checkbox" id="antiInvite"><span class="slider"></span></label>
-        </div>
+        <div class="wb-header"><div class="card-icon">📨</div><div><h3>Anti-invite</h3><p class="wb-sub">Защита от приглашений</p></div><label class="switch"><input type="checkbox" id="antiInvite"><span class="slider"></span></label></div>
         <div class="vars-hint">Удаляет приглашения на другие серверы.</div>
       </div>
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">🌐</div>
-          <div><h3>Anti-link</h3><p class="wb-sub">Защита от ссылок</p></div>
-          <label class="switch"><input type="checkbox" id="antiLink"><span class="slider"></span></label>
-        </div>
+        <div class="wb-header"><div class="card-icon">🌐</div><div><h3>Anti-link</h3><p class="wb-sub">Защита от ссылок</p></div><label class="switch"><input type="checkbox" id="antiLink"><span class="slider"></span></label></div>
         <div class="vars-hint">Удаляет все ссылки.</div>
       </div>
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">📢</div>
-          <div><h3>Anti-spam</h3><p class="wb-sub">Защита от спама</p></div>
-          <label class="switch"><input type="checkbox" id="antiSpam"><span class="slider"></span></label>
-        </div>
+        <div class="wb-header"><div class="card-icon">📢</div><div><h3>Anti-spam</h3><p class="wb-sub">Защита от спама</p></div><label class="switch"><input type="checkbox" id="antiSpam"><span class="slider"></span></label></div>
         <div class="vars-hint">>5 сообщений за 5 секунд — удаляются.</div>
       </div>
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">🚫</div>
-          <div><h3>Запрещённые слова</h3><p class="wb-sub">Через запятую</p></div>
-        </div>
+        <div class="wb-header"><div class="card-icon">🚫</div><div><h3>Запрещённые слова</h3><p class="wb-sub">Через запятую</p></div></div>
         <textarea id="bannedWords" class="textarea" rows="3" placeholder="мат, спам, реклама"></textarea>
         <div class="vars-hint">Через запятую. Если слово найдено — сообщение удаляется.</div>
       </div>
@@ -263,13 +210,9 @@
       <div class="msg" id="automodMsg"></div>
     </div>
 
-    <!-- ПАНЕЛЬ ЛОГОВ -->
     <div id="logsPanel" class="welcome-panel" style="display:none;">
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">📋</div>
-          <div><h3>Каналы для логов</h3><p class="wb-sub">Отдельный канал для каждого события</p></div>
-        </div>
+        <div class="wb-header"><div class="card-icon">📋</div><div><h3>Каналы для логов</h3><p class="wb-sub">Отдельный канал для каждого события</p></div></div>
         <div class="vars-hint">Если канал не выбран — событие не логируется.</div>
       </div>
       <div class="welcome-block"><label class="field-label">👋 Вход</label><select id="logMemberJoin" class="select"><option value="">— Не логировать —</option></select></div>
@@ -286,14 +229,9 @@
       <div class="msg" id="logsMsg"></div>
     </div>
 
-    <!-- ПАНЕЛЬ ПРИВЕТСТВИЙ -->
     <div id="welcomePanel" class="welcome-panel" style="display:none;">
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">👋</div>
-          <div><h3>Приветствие</h3><p class="wb-sub">При входе</p></div>
-          <label class="switch"><input type="checkbox" id="welcomeEnabled"><span class="slider"></span></label>
-        </div>
+        <div class="wb-header"><div class="card-icon">👋</div><div><h3>Приветствие</h3><p class="wb-sub">При входе</p></div><label class="switch"><input type="checkbox" id="welcomeEnabled"><span class="slider"></span></label></div>
         <label class="field-label">Канал</label>
         <select id="welcomeChannel" class="select"><option value="">— Выбери канал —</option></select>
         <label class="field-label">Текст</label>
@@ -301,11 +239,7 @@
         <div class="vars-hint">Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code></div>
       </div>
       <div class="welcome-block">
-        <div class="wb-header">
-          <div class="card-icon">🚪</div>
-          <div><h3>Прощание</h3><p class="wb-sub">При выходе</p></div>
-          <label class="switch"><input type="checkbox" id="goodbyeEnabled"><span class="slider"></span></label>
-        </div>
+        <div class="wb-header"><div class="card-icon">🚪</div><div><h3>Прощание</h3><p class="wb-sub">При выходе</p></div><label class="switch"><input type="checkbox" id="goodbyeEnabled"><span class="slider"></span></label></div>
         <label class="field-label">Канал</label>
         <select id="goodbyeChannel" class="select"><option value="">— Выбери канал —</option></select>
         <label class="field-label">Текст</label>
@@ -346,42 +280,31 @@
 <div id="profileModal" class="modal" style="display:none;">
   <div class="modal-content">
     <button class="modal-close" onclick="closeProfile()">✕</button>
-
     <div class="profile-avatar" id="profileAvatarBox">
       <img id="profileAvatarImg" alt="">
       <span id="profileAvatarLetter">?</span>
     </div>
-
     <h2 id="profileName">Загрузка...</h2>
     <p class="profile-id" id="profileId">ID: —</p>
     <div class="profile-status" id="profileStatus" style="display:none;"></div>
     <div class="profile-bio" id="profileBio" style="display:none;"></div>
-
     <div class="profile-stats">
       <div class="profile-stat"><span id="profileGuilds">—</span><small>Серверов</small></div>
     </div>
-
     <button class="edit-profile-btn" id="editProfileBtn" onclick="toggleEditor()">🎨 Настроить профиль</button>
-
     <div id="profileEditor" class="profile-editor" style="display:none;">
       <label class="field-label">Цвет акцента</label>
       <div class="color-palette" id="colorPalette"></div>
-
       <label class="field-label">Статус</label>
-      <input type="text" id="editStatus" class="textarea" maxlength="80"
-        style="font-size:14px;" placeholder="Например: Главный по мафии">
-
+      <input type="text" id="editStatus" class="textarea" maxlength="80" style="font-size:14px;" placeholder="Например: Главный по мафии">
       <label class="field-label">О себе</label>
-      <textarea id="editBio" class="textarea" rows="3" maxlength="200"
-        placeholder="Пара слов о себе..."></textarea>
-
+      <textarea id="editBio" class="textarea" rows="3" maxlength="200" placeholder="Пара слов о себе..."></textarea>
       <div class="welcome-actions" style="margin-top:14px;">
         <button class="save-btn" onclick="saveCustomProfile()">Сохранить</button>
         <button class="cancel-btn" onclick="toggleEditor()">Отмена</button>
       </div>
       <div class="msg" id="profileEditMsg"></div>
     </div>
-
     <button class="logout-btn-full" onclick="logout()">🚪 Выйти из аккаунта</button>
   </div>
 </div>
@@ -390,4 +313,4 @@
 <script src="script2.js"></script>
 
 </body>
-    </html>
+</html>
