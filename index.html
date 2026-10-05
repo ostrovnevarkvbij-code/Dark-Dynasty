@@ -90,6 +90,34 @@
     <div id="eventContent">
       <div class="event-loading">Загрузка ивента...</div>
     </div>
+
+    <div class="lb-grid">
+      <div class="lb-card">
+        <div class="lb-header">
+          <div class="lb-icon">⚔️</div>
+          <div>
+            <h3>Топ по дуэлям</h3>
+            <p class="wb-sub">Кто больше сражался</p>
+          </div>
+        </div>
+        <div id="lbDuels" class="lb-list">
+          <div class="lb-empty">Загрузка...</div>
+        </div>
+      </div>
+
+      <div class="lb-card">
+        <div class="lb-header">
+          <div class="lb-icon">🧮</div>
+          <div>
+            <h3>Топ по математике</h3>
+            <p class="wb-sub">Кто больше решил задач</p>
+          </div>
+        </div>
+        <div id="lbMath" class="lb-list">
+          <div class="lb-empty">Загрузка...</div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- АДМИНИСТРАЦИЯ -->
@@ -295,8 +323,9 @@
   <!-- МИНИ ИГРЫ -->
   <section id="minigames" class="section">
     <div class="grid">
-      <div class="card"><div class="card-icon">⚔️</div><h3>Вызвать на дуэль</h3><p>100 HP у каждого. Урон 10–25, крит 20%.</p><span class="cmd">/дуэль @user</span></div>
+      <div class="card"><div class="card-icon">⚔️</div><h3>Дуэль</h3><p>100 HP у каждого. Урон 10–25, крит 20%.</p><span class="cmd">/дуэль @user</span></div>
       <div class="card"><div class="card-icon">💥</div><h3>Атака</h3><p>Пошаговая система. Ход передаётся автоматически.</p><span class="cmd">!атака</span></div>
+      <div class="card"><div class="card-icon">🧮</div><h3>Математика</h3><p>Пример из +, −, ×, ÷. Первый правильный ответ — победа.</p><span class="cmd">!математика</span></div>
     </div>
   </section>
 
@@ -314,7 +343,6 @@
 
 </main>
 
-<!-- ПРОФИЛЬ -->
 <div id="profileModal" class="modal" style="display:none;">
   <div class="modal-content">
     <button class="modal-close" onclick="closeProfile()">✕</button>
@@ -362,4 +390,4 @@
 <script src="script2.js"></script>
 
 </body>
-      </html>
+    </html>
