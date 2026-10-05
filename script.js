@@ -5,7 +5,7 @@
 
 const u = localStorage.getItem('logged_user');
 const userId = localStorage.getItem('lolka_id');
-const API = 'https://kjfgzzftse.apps.bot-hosting.cloud';
+const API = 'https://dark-arbit-proxy.ostrokadkima.workers.dev';
 
 let customProfile = { color: '#ff2d2d', bio: '', status: '' };
 
