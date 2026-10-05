@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админка — Dark Arbitr Bot</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="install.css">
+<style>
+  .admin-wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 80px; }
+  .admin-header {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 24px; margin-bottom: 24px;
+    background: var(--card); border: 1px solid var(--stroke);
+    border-radius: 20px; backdrop-filter: blur(16px);
+  }
+  .admin-header-icon {
+    width: 52px; height: 52px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    display: grid; place-items: center; font-size: 26px;
+    box-shadow: 0 8px 25px rgba(255, 45, 45, 0.5);
+  }
+  .admin-header h1 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  .admin-header p { color: var(--muted); font-size: 13px; }
+
+  .admin-back {
+    margin-left: auto;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--stroke);
+    color: var(--muted);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+  .admin-back:hover {
+    color: #ff8080;
+    border-color: rgba(255, 45, 45, 0.5);
+  }
+
+  .days-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .day-btn {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--stroke);
+    color: var(--muted);
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+  .day-btn:hover { color: var(--text); border-color: rgba(255, 45, 45, 0.4); }
+  .day-btn.active {
+    background: linear-gradient(135deg, var(--brand), var(--brand2));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(255, 45, 45, 0.4);
+  }
+
+  .bl-list {
+    background: var(--card);
+    border: 1px solid var(--stroke);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(16px);
+  }
+  .bl-list h3 { font-size: 18px; margin-bottom: 16px; }
+  .bl-empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 30px 0;
+    font-size: 14px;
+  }
+  .bl-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 45, 45, 0.08);
+  }
+  .bl-item:last-child { border-bottom: none; }
+  .bl-item-info { flex: 1; min-width: 0; }
+  .bl-item-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .bl-item-meta {
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'Consolas', monospace;
+    word-break: break-all;
+  }
+  .bl-item-reason {
+    color: #ff8080;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .unban-btn {
+    padding: 8px 16px;
+    background: rgba(80, 255, 80, 0.1);
+    border: 1px solid rgba(80, 255, 80, 0.3);
+    color: #80ff80;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    transition: 0.2s;
+    flex-shrink: 0;
+  }
+  .unban-btn:hover {
+    background: rgba(80, 255, 80, 0.2);
+    border-color: rgba(80, 255, 80, 0.5);
+  }
+  .denied {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--muted);
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="admin-wrap" id="adminWrap">
+
+  <div id="checking" class="denied">🔒 Проверка доступа...</div>
+
+  <div id="denied" class="denied" style="display:none;">
+    <div style="font-size:56px; margin-bottom:16px;">🚫</div>
+    <h2 style="color:#ff8080; margin-bottom:8px;">Доступ запрещён</h2>
+    <p>У вас нет прав для входа в админку.</p>
+  </div>
+
+  <div id="adminContent" style="display:none;">
+
+    <div class="admin-header">
+      <div class="admin-header-icon">👑</div>
+      <div>
+        <h1>Админ-панель</h1>
+        <p>Управление чёрным списком сайта</p>
+      </div>
+      <a class="admin-back" href="index.html">← На сайт</a>
+    </div>
+
+    <!-- ФОРМА БАНА -->
+    <div class="welcome-block">
+      <div class="wb-header">
+        <div class="card-icon">🚫</div>
+        <div>
+          <h3>Забанить на сайте</h3>
+          <p class="wb-sub">Пользователь не сможет войти в панель</p>
+        </div>
+      </div>
+
+      <label class="field-label">ID пользователя</label>
+      <input type="text" id="banUserId" class="textarea"
+        style="font-family:Consolas,monospace; font-size:15px;"
+        placeholder="663941147524096" maxlength="25">
+
+      <label class="field-label">Причина</label>
+      <input type="text" id="banReason" class="textarea"
+        placeholder="Спам на сайте" maxlength="200">
+
+      <label class="field-label">Срок бана</label>
+      <div class="days-row">
+        <button class="day-btn active" data-days="0">0 — навсегда</button>
+        <button class="day-btn" data-days="1">1 день</button>
+        <button class="day-btn" data-days="7">7 дней</button>
+        <button class="day-btn" data-days="20">20 дней</button>
+      </div>
+
+      <div class="welcome-actions" style="margin-top:20px;">
+        <button class="save-btn" onclick="doBan()">🚫 Забанить</button>
+      </div>
+
+      <div class="msg" id="banMsg"></div>
+    </div>
+
+    <!-- СПИСОК ЧС -->
+    <div class="bl-list" style="margin-top:18px;">
+      <h3>📋 Забаненные (<span id="blCount">0</span>)</h3>
+      <div id="blItems"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="admin.js"></script>
+
+</body>
+  </html>
