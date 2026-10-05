@@ -3,8 +3,6 @@ const myId = localStorage.getItem('lolka_id');
 
 let selectedDays = 0;
 
-// ============ ПРОВЕРКА ДОСТУПА ============
-
 async function checkAccess() {
   if (!myId) {
     window.location.href = 'auth.html';
@@ -31,8 +29,6 @@ async function checkAccess() {
   }
 }
 
-// ============ ВЫБОР СРОКА ============
-
 document.querySelectorAll('.day-btn').forEach(btn => {
   btn.addEventListener('click', function () {
     document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
@@ -40,8 +36,6 @@ document.querySelectorAll('.day-btn').forEach(btn => {
     selectedDays = parseInt(this.dataset.days) || 0;
   });
 });
-
-// ============ БАН ============
 
 async function doBan() {
   const targetId = document.getElementById('banUserId').value.trim();
@@ -94,8 +88,6 @@ function showBanMsg(text, isErr) {
   setTimeout(() => { el.textContent = ''; }, 4000);
 }
 
-// ============ СПИСОК ЧС ============
-
 async function loadBlacklist() {
   const container = document.getElementById('blItems');
   container.innerHTML = '<div class="bl-empty">Загрузка...</div>';
@@ -146,8 +138,6 @@ async function loadBlacklist() {
   }
 }
 
-// ============ РАЗБАН ============
-
 async function unban(userId) {
   if (!confirm('Разбанить пользователя ' + userId + '?')) return;
 
@@ -172,5 +162,4 @@ async function unban(userId) {
   }
 }
 
-// ============ ЗАПУСК ============
 checkAccess();
