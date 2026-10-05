@@ -205,6 +205,11 @@ document.querySelectorAll('.tab').forEach(function (btn) {
     const target = document.getElementById(btn.dataset.target);
     if (target) target.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Загружаем чат при открытии вкладки
+    if (btn.dataset.target === 'chat' && typeof loadChat === 'function') {
+      loadChat();
+    }
   });
 });
 
@@ -555,4 +560,4 @@ async function saveLogs() {
     }, 20000);
     showMsg('logsMsg', data?.status === 'ok' ? '✅ Сохранено!' : '❌ Ошибка', data?.status !== 'ok');
   } catch (e) { showMsg('logsMsg', '❌ ' + e.message, true); }
-    }
+    
