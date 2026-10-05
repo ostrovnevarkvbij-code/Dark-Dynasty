@@ -60,7 +60,6 @@ function showMsg(id, text, isErr) {
   setTimeout(() => { el.textContent = ''; }, 3000);
 }
 
-// ========== ЗАПУСК ==========
 loadGuilds();
 loadStats();
 loadMyProfile();
