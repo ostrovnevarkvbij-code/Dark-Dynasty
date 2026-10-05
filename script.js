@@ -65,7 +65,6 @@ async function loadStats() {
   } catch (e) {}
 }
 
-// ========== ПРОФИЛЬ ==========
 async function openProfile() {
   document.getElementById('profileModal').style.display = 'flex';
   const name = localStorage.getItem('logged_user') || 'Пользователь';
@@ -186,7 +185,6 @@ document.getElementById('profileModal').addEventListener('click', function (e) {
   if (e.target === this) closeProfile();
 });
 
-// ========== ТЕМА ==========
 function toggleTheme() {
   const isLight = document.body.classList.toggle('light');
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
@@ -199,7 +197,6 @@ function toggleTheme() {
 
 function logout() { localStorage.clear(); location.href = 'auth.html'; }
 
-// ========== ВКЛАДКИ ==========
 document.querySelectorAll('.tab').forEach(function (btn) {
   btn.addEventListener('click', function () {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -211,7 +208,6 @@ document.querySelectorAll('.tab').forEach(function (btn) {
   });
 });
 
-// ========== АДМИНИСТРАЦИЯ ==========
 async function loadAdmins() {
   const grid = document.getElementById('adminsGrid');
   try {
@@ -241,36 +237,70 @@ async function loadAdmins() {
   }
 }
 
-// ========== ИВЕНТ ==========
 async function loadEvent() {
   const box = document.getElementById('eventContent');
   try {
     const ev = await fetchJSON(`${API}/api/event/current`);
     if (!ev || !ev.enabled) {
       box.innerHTML = '<div class="event-loading">Сейчас активных ивентов нет</div>';
-      return;
+    } else {
+      const timer = getTimer(ev.date);
+      const prizesHtml = (ev.prizes || []).map(p => `<li>${p}</li>`).join('');
+      box.innerHTML = `
+        <div class="event-hero">
+          <div class="event-badge">🔥 АКТИВНЫЙ ИВЕНТ</div>
+          <h2>${ev.title}</h2>
+          <div class="event-date">📅 ${ev.date_text}</div>
+          <p class="event-desc">${ev.description}</p>
+          <div class="event-timer">
+            <div class="timer-label">До конца ивента:</div>
+            <div class="timer-value">${timer}</div>
+          </div>
+          <div class="event-prizes">
+            <h3>🏆 Награды</h3>
+            <ul>${prizesHtml}</ul>
+          </div>
+        </div>
+      `;
     }
-    const timer = getTimer(ev.date);
-    const prizesHtml = (ev.prizes || []).map(p => `<li>${p}</li>`).join('');
-    box.innerHTML = `
-      <div class="event-hero">
-        <div class="event-badge">🔥 АКТИВНЫЙ ИВЕНТ</div>
-        <h2>${ev.title}</h2>
-        <div class="event-date">📅 ${ev.date_text}</div>
-        <p class="event-desc">${ev.description}</p>
-        <div class="event-timer">
-          <div class="timer-label">До конца ивента:</div>
-          <div class="timer-value">${timer}</div>
-        </div>
-        <div class="event-prizes">
-          <h3>🏆 Награды для топ-10</h3>
-          <ul>${prizesHtml}</ul>
-        </div>
-      </div>
-    `;
   } catch (e) {
     box.innerHTML = '<div class="event-loading">Ошибка загрузки ивента</div>';
   }
+
+  loadLeaderboards();
+}
+
+async function loadLeaderboards() {
+  const medals = ['🥇', '🥈', '🥉'];
+
+  async function fill(url, containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    try {
+      const list = await fetchJSON(url);
+      if (!Array.isArray(list) || list.length === 0) {
+        el.innerHTML = '<div class="lb-empty">Пока никого</div>';
+        return;
+      }
+      el.innerHTML = list.map((u, i) => {
+        const place = medals[i] || (i + 1);
+        return `
+          <div class="lb-row">
+            <span class="lb-place">${place}</span>
+            <span class="lb-name">${u.username}</span>
+            <span class="lb-score">${u.score}</span>
+          </div>
+        `;
+      }).join('');
+    } catch (e) {
+      el.innerHTML = '<div class="lb-empty">Ошибка загрузки</div>';
+    }
+  }
+
+  await Promise.all([
+    fill(`${API}/api/leaderboard/duels`, 'lbDuels'),
+    fill(`${API}/api/leaderboard/math`, 'lbMath'),
+  ]);
 }
 
 function getTimer(dateStr) {
@@ -289,7 +319,6 @@ setInterval(() => {
   if (el) loadEvent();
 }, 60000);
 
-// ========== СЕРВЕРА ==========
 const guildSelect = document.getElementById('guildSelect');
 const selectedInfo = document.getElementById('selectedInfo');
 const selectedName = document.getElementById('selectedName');
@@ -405,7 +434,6 @@ function fillRoles(selectEl, roles, selectedId) {
   });
 }
 
-// НАСТРОЙКИ
 function toggleSettings() {
   const el = document.getElementById('settingsPanel');
   const opened = el.style.display === 'block';
@@ -445,7 +473,6 @@ async function saveSettings() {
   } catch (e) { showMsg('settingsMsg', '❌ ' + e.message, true); }
 }
 
-// АВТОМОДЕРАЦИЯ
 function toggleAutomod() {
   const el = document.getElementById('automodPanel');
   const opened = el.style.display === 'block';
@@ -485,7 +512,6 @@ async function saveAutomod() {
   } catch (e) { showMsg('automodMsg', '❌ ' + e.message, true); }
 }
 
-// ЛОГИ
 const LOG_FIELDS = {
   member_join: 'logMemberJoin',
   member_leave: 'logMemberLeave',
@@ -529,4 +555,4 @@ async function saveLogs() {
     }, 20000);
     showMsg('logsMsg', data?.status === 'ok' ? '✅ Сохранено!' : '❌ Ошибка', data?.status !== 'ok');
   } catch (e) { showMsg('logsMsg', '❌ ' + e.message, true); }
-      }
+    }
