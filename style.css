@@ -115,7 +115,7 @@ body.light .textarea{background:rgba(255,255,255,.7)}
 .msg.err{color:#ff8080}
 .msg.ok{color:#80ff80}
 
-/* МОДАЛКА */
+/* МОДАЛКА ПРОФИЛЯ */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .25s ease}
 .modal-content{position:relative;background:var(--card);border:1px solid var(--stroke);border-radius:24px;padding:32px 24px 24px;width:100%;max-width:380px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,.6);text-align:center;animation:modalIn .35s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto}
 @keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
@@ -127,12 +127,23 @@ body.light .textarea{background:rgba(255,255,255,.7)}
 .profile-avatar img.loaded+span{display:none}
 #profileName{font-size:22px;font-weight:800;margin-bottom:6px}
 .profile-id{color:var(--muted);font-size:12px;font-family:'Consolas',monospace;margin-bottom:12px}
+.profile-status{display:inline-block;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:rgba(255,45,45,.1);border:1px solid;border-color:var(--brand);margin-bottom:10px}
+.profile-bio{color:var(--muted);font-size:13px;line-height:1.5;max-width:300px;margin:8px auto 16px;text-align:center}
 .profile-stats{display:flex;justify-content:center;gap:32px;margin-bottom:20px;padding:16px 0;border-top:1px solid rgba(255,45,45,.1);border-bottom:1px solid rgba(255,45,45,.1)}
 .profile-stat{display:flex;flex-direction:column;gap:4px}
 .profile-stat span{font-size:24px;font-weight:800;color:#ff8080}
 .profile-stat small{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
 .logout-btn-full{width:100%;padding:14px;background:rgba(255,45,45,.1);border:1px solid rgba(255,45,45,.3);color:#ff8080;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
 .logout-btn-full:hover{background:rgba(255,45,45,.2);box-shadow:0 8px 25px rgba(255,45,45,.3);transform:translateY(-1px)}
+.edit-profile-btn{width:100%;padding:12px;background:rgba(255,45,45,.1);border:1px solid rgba(255,45,45,.3);color:#ff8080;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;margin-bottom:12px}
+.edit-profile-btn:hover{background:rgba(255,45,45,.2);border-color:rgba(255,45,45,.5)}
+.profile-editor{text-align:left;padding:16px;background:rgba(0,0,0,.25);border:1px solid rgba(255,45,45,.15);border-radius:14px;margin-bottom:12px;animation:fadeIn .3s ease}
+body.light .profile-editor{background:rgba(255,255,255,.5)}
+.color-palette{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.color-dot{width:36px;height:36px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:.2s;padding:0}
+.color-dot:hover{transform:scale(1.1)}
+.color-dot.active{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3),0 0 20px currentColor}
+body.light .color-dot.active{border-color:#2a0a0e;box-shadow:0 0 0 3px rgba(42,10,14,.2)}
 
 /* АДМИНИСТРАЦИЯ */
 .admins-header{display:flex;align-items:center;gap:16px;padding:20px 24px;margin-bottom:24px;background:var(--card);border:1px solid var(--stroke);border-radius:20px;backdrop-filter:blur(16px)}
@@ -170,18 +181,22 @@ body.light .event-prizes{background:rgba(255,255,255,.5)}
 .event-prizes li:last-child{border-bottom:none}
 .event-loading{text-align:center;padding:80px 20px;color:var(--muted);font-size:15px}
 
-/* КОНСТРУКТОР ПРОФИЛЯ */
-.profile-status{display:inline-block;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:rgba(255,45,45,.1);border:1px solid;border-color:var(--brand);margin-bottom:10px}
-.profile-bio{color:var(--muted);font-size:13px;line-height:1.5;max-width:300px;margin:8px auto 16px;text-align:center}
-.edit-profile-btn{width:100%;padding:12px;background:rgba(255,45,45,.1);border:1px solid rgba(255,45,45,.3);color:#ff8080;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;margin-bottom:12px}
-.edit-profile-btn:hover{background:rgba(255,45,45,.2);border-color:rgba(255,45,45,.5)}
-.profile-editor{text-align:left;padding:16px;background:rgba(0,0,0,.25);border:1px solid rgba(255,45,45,.15);border-radius:14px;margin-bottom:12px;animation:fadeIn .3s ease}
-body.light .profile-editor{background:rgba(255,255,255,.5)}
-.color-palette{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
-.color-dot{width:36px;height:36px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:.2s;padding:0}
-.color-dot:hover{transform:scale(1.1)}
-.color-dot.active{border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.3),0 0 20px currentColor}
-body.light .color-dot.active{border-color:#2a0a0e;box-shadow:0 0 0 3px rgba(42,10,14,.2)}
+/* ТАБЛИЦЫ ЛИДЕРОВ */
+.lb-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-top:24px}
+.lb-card{background:var(--card);border:1px solid var(--stroke);border-radius:20px;padding:22px;backdrop-filter:blur(16px)}
+.lb-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,45,45,.1)}
+.lb-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));display:grid;place-items:center;font-size:22px;flex-shrink:0;box-shadow:0 6px 20px rgba(255,45,45,.4)}
+.lb-header h3{font-size:17px;margin-bottom:2px}
+.lb-list{display:flex;flex-direction:column;gap:4px}
+.lb-empty{color:var(--muted);text-align:center;padding:20px 0;font-size:13px}
+.lb-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;transition:.2s}
+.lb-row:hover{background:rgba(255,45,45,.08)}
+.lb-place{font-size:16px;font-weight:800;min-width:28px;text-align:center;color:#ff8080}
+.lb-name{flex:1;font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-score{font-size:14px;font-weight:800;color:var(--brand);font-family:'Consolas',monospace}
+.lb-row:nth-child(1) .lb-place{color:#ffd700}
+.lb-row:nth-child(2) .lb-place{color:#c0c0c0}
+.lb-row:nth-child(3) .lb-place{color:#cd7f32}
 
 /* АДАПТИВ */
 @media (max-width:600px){
