@@ -39,6 +39,8 @@
 
   <nav class="tabs tabs-main">
     <button class="tab active" data-target="install">📥 Установка</button>
+    <button class="tab" data-target="event">🎉 Ивент</button>
+    <button class="tab" data-target="admins">👑 Администрация</button>
     <button class="tab" data-target="server">🖥️ Сервер</button>
     <button class="tab" data-target="minigames">🎮 Мини игры</button>
     <button class="tab" data-target="moderation">🛡️ Модерация</button>
@@ -83,6 +85,27 @@
     </div>
   </section>
 
+  <!-- ИВЕНТ -->
+  <section id="event" class="section">
+    <div id="eventContent">
+      <div class="event-loading">Загрузка ивента...</div>
+    </div>
+  </section>
+
+  <!-- АДМИНИСТРАЦИЯ -->
+  <section id="admins" class="section">
+    <div class="admins-header">
+      <div class="card-icon">👑</div>
+      <div>
+        <h2>Администрация проекта</h2>
+        <p class="wb-sub">Люди, которые делают Dark Arbitr лучше</p>
+      </div>
+    </div>
+    <div class="admins-grid" id="adminsGrid">
+      <div class="admins-loading">Загрузка...</div>
+    </div>
+  </section>
+
   <!-- СЕРВЕР -->
   <section id="server" class="section">
     <div class="grid grid-server">
@@ -116,25 +139,22 @@
           <p>Авто-роль, Anti-caps, защита от ботов.</p>
           <button class="open-btn" onclick="toggleSettings()">Настроить</button>
         </div>
-
         <div class="card" id="welcomeCard">
           <div class="card-icon">👋</div>
           <h3>Приветствия</h3>
           <p>Сообщения при входе и выходе участников.</p>
           <button class="open-btn" onclick="toggleWelcome()">Настроить</button>
         </div>
-
         <div class="card" id="automodCard">
           <div class="card-icon">🛡️</div>
           <h3>Автомодерация</h3>
-          <p>Anti-invite, anti-link, anti-spam, запрещённые слова.</p>
+          <p>Anti-invite, anti-link, anti-spam, слова.</p>
           <button class="open-btn" onclick="toggleAutomod()">Настроить</button>
         </div>
-
         <div class="card" id="logsCard">
           <div class="card-icon">📋</div>
           <h3>Логи</h3>
-          <p>Отдельный канал для каждого типа событий.</p>
+          <p>Отдельный канал для каждого события.</p>
           <button class="open-btn" onclick="toggleLogs()">Настроить</button>
         </div>
       </div>
@@ -145,18 +165,12 @@
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">⚙️</div>
-          <div>
-            <h3>Настройки сервера</h3>
-            <p class="wb-sub">Авто-роль, защита чата, защита от ботов</p>
-          </div>
+          <div><h3>Настройки сервера</h3><p class="wb-sub">Авто-роль, защита чата</p></div>
         </div>
         <label class="field-label">Авто-роль при входе</label>
-        <select id="autoRoleSelect" class="select">
-          <option value="">— Не выдавать —</option>
-        </select>
-        <div class="vars-hint">Роль, которая автоматически выдаётся новому участнику.</div>
+        <select id="autoRoleSelect" class="select"><option value="">— Не выдавать —</option></select>
+        <div class="vars-hint">Роль, выдаваемая новому участнику.</div>
       </div>
-
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">🔠</div>
@@ -165,7 +179,6 @@
         </div>
         <div class="vars-hint">Удаляет сообщения с >70% заглавных букв.</div>
       </div>
-
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">🤖</div>
@@ -174,7 +187,6 @@
         </div>
         <div class="vars-hint">Автоматически кикает любого бота, кроме Dark Arbitr.</div>
       </div>
-
       <div class="welcome-actions">
         <button class="save-btn" onclick="saveSettings()">Сохранить</button>
         <button class="cancel-btn" onclick="toggleSettings()">Закрыть</button>
@@ -190,37 +202,32 @@
           <div><h3>Anti-invite</h3><p class="wb-sub">Защита от приглашений</p></div>
           <label class="switch"><input type="checkbox" id="antiInvite"><span class="slider"></span></label>
         </div>
-        <div class="vars-hint">Удаляет сообщения с приглашениями на другие серверы (discord.gg, lolka.app/invite и т.п.).</div>
+        <div class="vars-hint">Удаляет приглашения на другие серверы.</div>
       </div>
-
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">🌐</div>
           <div><h3>Anti-link</h3><p class="wb-sub">Защита от ссылок</p></div>
           <label class="switch"><input type="checkbox" id="antiLink"><span class="slider"></span></label>
         </div>
-        <div class="vars-hint">Удаляет все сообщения с ссылками (http/https).</div>
+        <div class="vars-hint">Удаляет все ссылки.</div>
       </div>
-
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">📢</div>
           <div><h3>Anti-spam</h3><p class="wb-sub">Защита от спама</p></div>
           <label class="switch"><input type="checkbox" id="antiSpam"><span class="slider"></span></label>
         </div>
-        <div class="vars-hint">Если пользователь отправит больше 5 сообщений за 5 секунд — они удаляются.</div>
+        <div class="vars-hint">>5 сообщений за 5 секунд — удаляются.</div>
       </div>
-
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">🚫</div>
           <div><h3>Запрещённые слова</h3><p class="wb-sub">Через запятую</p></div>
         </div>
-        <textarea id="bannedWords" class="textarea" rows="3"
-          placeholder="мат, ругательство, спам-слово"></textarea>
-        <div class="vars-hint">Через запятую. Если сообщение содержит любое из этих слов — оно удаляется.</div>
+        <textarea id="bannedWords" class="textarea" rows="3" placeholder="мат, спам, реклама"></textarea>
+        <div class="vars-hint">Через запятую. Если слово найдено — сообщение удаляется.</div>
       </div>
-
       <div class="welcome-actions">
         <button class="save-btn" onclick="saveAutomod()">Сохранить</button>
         <button class="cancel-btn" onclick="toggleAutomod()">Закрыть</button>
@@ -233,49 +240,17 @@
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">📋</div>
-          <div>
-            <h3>Каналы для логов</h3>
-            <p class="wb-sub">Выбери отдельный канал для каждого события</p>
-          </div>
+          <div><h3>Каналы для логов</h3><p class="wb-sub">Отдельный канал для каждого события</p></div>
         </div>
-        <div class="vars-hint">Если канал не выбран — событие не логируется. Каждое событие пишется в свой канал.</div>
+        <div class="vars-hint">Если канал не выбран — событие не логируется.</div>
       </div>
-
-      <div class="welcome-block">
-        <label class="field-label">👋 Вход участника</label>
-        <select id="logMemberJoin" class="select"><option value="">— Не логировать —</option></select>
-      </div>
-
-      <div class="welcome-block">
-        <label class="field-label">🚪 Выход участника</label>
-        <select id="logMemberLeave" class="select"><option value="">— Не логировать —</option></select>
-      </div>
-
-      <div class="welcome-block">
-        <label class="field-label">🗑️ Удаление сообщений</label>
-        <select id="logMessageDelete" class="select"><option value="">— Не логировать —</option></select>
-      </div>
-
-      <div class="welcome-block">
-        <label class="field-label">✏️ Редактирование сообщений</label>
-        <select id="logMessageEdit" class="select"><option value="">— Не логировать —</option></select>
-      </div>
-
-      <div class="welcome-block">
-        <label class="field-label">🔨 Баны</label>
-        <select id="logMemberBan" class="select"><option value="">— Не логировать —</option></select>
-      </div>
-
-      <div class="welcome-block">
-        <label class="field-label">🔓 Разбаны</label>
-        <select id="logMemberUnban" class="select"><option value="">— Не логировать —</option></select>
-      </div>
-
-      <div class="welcome-block">
-        <label class="field-label">🎭 Изменение ролей</label>
-        <select id="logRoleChange" class="select"><option value="">— Не логировать —</option></select>
-      </div>
-
+      <div class="welcome-block"><label class="field-label">👋 Вход</label><select id="logMemberJoin" class="select"><option value="">— Не логировать —</option></select></div>
+      <div class="welcome-block"><label class="field-label">🚪 Выход</label><select id="logMemberLeave" class="select"><option value="">— Не логировать —</option></select></div>
+      <div class="welcome-block"><label class="field-label">🗑️ Удаление сообщений</label><select id="logMessageDelete" class="select"><option value="">— Не логировать —</option></select></div>
+      <div class="welcome-block"><label class="field-label">✏️ Редактирование</label><select id="logMessageEdit" class="select"><option value="">— Не логировать —</option></select></div>
+      <div class="welcome-block"><label class="field-label">🔨 Баны</label><select id="logMemberBan" class="select"><option value="">— Не логировать —</option></select></div>
+      <div class="welcome-block"><label class="field-label">🔓 Разбаны</label><select id="logMemberUnban" class="select"><option value="">— Не логировать —</option></select></div>
+      <div class="welcome-block"><label class="field-label">🎭 Изменение ролей</label><select id="logRoleChange" class="select"><option value="">— Не логировать —</option></select></div>
       <div class="welcome-actions">
         <button class="save-btn" onclick="saveLogs()">Сохранить</button>
         <button class="cancel-btn" onclick="toggleLogs()">Закрыть</button>
@@ -288,31 +263,27 @@
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">👋</div>
-          <div><h3>Приветствие</h3><p class="wb-sub">Сообщение при входе</p></div>
+          <div><h3>Приветствие</h3><p class="wb-sub">При входе</p></div>
           <label class="switch"><input type="checkbox" id="welcomeEnabled"><span class="slider"></span></label>
         </div>
         <label class="field-label">Канал</label>
         <select id="welcomeChannel" class="select"><option value="">— Выбери канал —</option></select>
         <label class="field-label">Текст</label>
-        <textarea id="welcomeText" class="textarea" rows="3"
-          placeholder="Добро пожаловать, {user}! Ты {count}-й участник."></textarea>
+        <textarea id="welcomeText" class="textarea" rows="3" placeholder="Добро пожаловать, {user}!"></textarea>
         <div class="vars-hint">Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code></div>
       </div>
-
       <div class="welcome-block">
         <div class="wb-header">
           <div class="card-icon">🚪</div>
-          <div><h3>Прощание</h3><p class="wb-sub">Сообщение при выходе</p></div>
+          <div><h3>Прощание</h3><p class="wb-sub">При выходе</p></div>
           <label class="switch"><input type="checkbox" id="goodbyeEnabled"><span class="slider"></span></label>
         </div>
         <label class="field-label">Канал</label>
         <select id="goodbyeChannel" class="select"><option value="">— Выбери канал —</option></select>
         <label class="field-label">Текст</label>
-        <textarea id="goodbyeText" class="textarea" rows="3"
-          placeholder="Прощай, {user_name}. Нас стало {count}."></textarea>
+        <textarea id="goodbyeText" class="textarea" rows="3" placeholder="Прощай, {user_name}..."></textarea>
         <div class="vars-hint">Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code></div>
       </div>
-
       <div class="welcome-actions">
         <button class="save-btn" onclick="saveWelcome()">Сохранить</button>
         <button class="cancel-btn" onclick="toggleWelcome()">Закрыть</button>
@@ -343,18 +314,47 @@
 
 </main>
 
+<!-- ПРОФИЛЬ -->
 <div id="profileModal" class="modal" style="display:none;">
   <div class="modal-content">
     <button class="modal-close" onclick="closeProfile()">✕</button>
-    <div class="profile-avatar">
+
+    <div class="profile-avatar" id="profileAvatarBox">
       <img id="profileAvatarImg" alt="">
       <span id="profileAvatarLetter">?</span>
     </div>
+
     <h2 id="profileName">Загрузка...</h2>
     <p class="profile-id" id="profileId">ID: —</p>
+    <div class="profile-status" id="profileStatus" style="display:none;"></div>
+    <div class="profile-bio" id="profileBio" style="display:none;"></div>
+
     <div class="profile-stats">
       <div class="profile-stat"><span id="profileGuilds">—</span><small>Серверов</small></div>
     </div>
+
+    <button class="edit-profile-btn" id="editProfileBtn" onclick="toggleEditor()">🎨 Настроить профиль</button>
+
+    <!-- Редактор -->
+    <div id="profileEditor" class="profile-editor" style="display:none;">
+      <label class="field-label">Цвет акцента</label>
+      <div class="color-palette" id="colorPalette"></div>
+
+      <label class="field-label">Статус</label>
+      <input type="text" id="editStatus" class="textarea" maxlength="80"
+        style="font-size:14px;" placeholder="Например: Главный по мафии">
+
+      <label class="field-label">О себе</label>
+      <textarea id="editBio" class="textarea" rows="3" maxlength="200"
+        placeholder="Пара слов о себе..."></textarea>
+
+      <div class="welcome-actions" style="margin-top:14px;">
+        <button class="save-btn" onclick="saveCustomProfile()">Сохранить</button>
+        <button class="cancel-btn" onclick="toggleEditor()">Отмена</button>
+      </div>
+      <div class="msg" id="profileEditMsg"></div>
+    </div>
+
     <button class="logout-btn-full" onclick="logout()">🚪 Выйти из аккаунта</button>
   </div>
 </div>
@@ -362,4 +362,4 @@
 <script src="script.js"></script>
 
 </body>
-          </html>
+        </html>
