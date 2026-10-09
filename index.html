@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dark Arbitr Bot — Панель</title>
+<title>Dark Arbitr Deploy</title>
 <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="install.css">
 </head>
 <body>
 
@@ -16,301 +15,155 @@
 </script>
 
 <header class="topbar">
-  <button class="avatar-btn" id="avatarBtn" onclick="openProfile()" title="Профиль">
-    <img id="avatarImg" alt="">
-    <span id="avatarLetter">?</span>
-  </button>
+  <div class="logo">
+    <div class="logo-icon">🚀</div>
+    <span>Dark Arbitr Deploy</span>
+  </div>
   <div class="topbar-spacer"></div>
-  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Сменить тему">🌙</button>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Тема">🌙</button>
+  <button class="logout-btn" onclick="logout()">Выйти</button>
 </header>
 
 <main>
 
   <div class="hero">
-    <h1>Dark Arbitr Bot</h1>
-    <p>Правосудие вершится здесь.</p>
-    <div class="stats-row">
-      <div class="stat-box"><span id="statGuilds">—</span><small>Серверов</small></div>
-      <div class="stat-box"><span id="statMembers">—</span><small>Пользователей</small></div>
-      <div class="stat-box"><span id="statCommands">—</span><small>Команд</small></div>
-    </div>
+    <h1>Панель управления сервером</h1>
+    <p>Загрузка мода, импорт базы данных и статус подключений</p>
   </div>
 
-  <nav class="tabs tabs-main">
-    <button class="tab active" data-target="install">📥 Установка</button>
-    <button class="tab" data-target="event">🎉 Ивент</button>
-    <button class="tab" data-target="chat">💬 Чат</button>
-    <button class="tab" data-target="admins">👑 Администрация</button>
-    <button class="tab" data-target="server">🖥️ Сервер</button>
-    <button class="tab" data-target="minigames">🎮 Мини игры</button>
-    <button class="tab" data-target="moderation">🛡️ Модерация</button>
-  </nav>
-
-  <!-- УСТАНОВКА -->
-  <section id="install" class="section active">
-    <div class="install-hero">
-      <div class="install-hero-icon">📥</div>
-      <h2>Как установить Dark Arbitr</h2>
-      <p>Установка занимает меньше минуты. Dark Arbitr работает через платформу Lolka.</p>
-      <a class="install-btn" href="https://lolka.app/bot-authorize?client_id=69f4ba7b-220d-44c7-86fa-c100d0bd94cb" target="_blank">
-        <span>➕</span> Добавить бота на сервер
-      </a>
-    </div>
-    <div class="steps-grid">
-      <div class="step-card"><div class="step-num">1</div><div class="step-icon">🔗</div><h3>Открой ссылку</h3><p>Нажми на кнопку установки выше.</p></div>
-      <div class="step-card"><div class="step-num">2</div><div class="step-icon">👤</div><h3>Войди в Lolka</h3><p>Авторизуйся в аккаунте.</p></div>
-      <div class="step-card"><div class="step-num">3</div><div class="step-icon">🌐</div><h3>Выбери сервер</h3><p>Куда добавить бота.</p></div>
-      <div class="step-card"><div class="step-num">4</div><div class="step-icon">🔐</div><h3>Проверь права</h3><p>Сообщения, роли, каналы, модерация.</p></div>
-      <div class="step-card"><div class="step-num">5</div><div class="step-icon">✅</div><h3>Авторизуй</h3><p>Бот появится на сервере.</p></div>
-      <div class="step-card"><div class="step-num">6</div><div class="step-icon">💬</div><h3>Напиши боту</h3><p>Отправь @darkarbitr_bot — ответит.</p></div>
-    </div>
-    <div class="install-tips">
-      <h3>💡 Полезно знать</h3>
-      <ul>
-        <li><b>Нужны права администратора</b> — чтобы добавить бота.</li>
-        <li><b>Без бота панель не работает</b> — функции привязаны к серверу.</li>
-        <li><b>Бот бесплатный</b> — все функции доступны.</li>
-        <li><b>Приватные данные защищены</b> — бот видит только нужное.</li>
-      </ul>
-    </div>
-    <div class="install-faq">
-      <h3>❓ Частые вопросы</h3>
-      <div class="faq-item"><div class="faq-q">Бот не появляется — что делать?</div><div class="faq-a">Проверь права «Управлять сервером».</div></div>
-      <div class="faq-item"><div class="faq-q">Бот бесплатный?</div><div class="faq-a">Да, полностью.</div></div>
-      <div class="faq-item"><div class="faq-q">Бот не отвечает?</div><div class="faq-a">Проверь право «Отправлять сообщения».</div></div>
-      <div class="faq-item"><div class="faq-q">Как удалить?</div><div class="faq-a">Настройки → Участники → Кикнуть.</div></div>
-    </div>
-  </section>
-
-  <!-- ИВЕНТ -->
-  <section id="event" class="section">
-    <div id="eventContent">
-      <div class="event-loading">Загрузка ивента...</div>
-    </div>
-    <div class="lb-grid">
-      <div class="lb-card">
-        <div class="lb-header">
-          <div class="lb-icon">⚔️</div>
-          <div><h3>Топ по дуэлям</h3><p class="wb-sub">Кто больше сражался</p></div>
-        </div>
-        <div id="lbDuels" class="lb-list"><div class="lb-empty">Загрузка...</div></div>
+  <!-- СТАТУС -->
+  <section class="block">
+    <div class="block-head">
+      <div class="block-icon">📊</div>
+      <div>
+        <h2>Статус подключений</h2>
+        <p class="sub">Проверка FTP и MySQL</p>
       </div>
-      <div class="lb-card">
-        <div class="lb-header">
-          <div class="lb-icon">🧮</div>
-          <div><h3>Топ по математике</h3><p class="wb-sub">Кто больше решил задач</p></div>
-        </div>
-        <div id="lbMath" class="lb-list"><div class="lb-empty">Загрузка...</div></div>
+      <button class="refresh-btn" onclick="checkStatus()" title="Обновить">🔄</button>
+    </div>
+    <div class="status-grid">
+      <div class="status-card" id="statusFtp">
+        <div class="status-label">📁 FTP</div>
+        <div class="status-value" id="ftpValue">Загрузка...</div>
+        <div class="status-msg" id="ftpMsg"></div>
+      </div>
+      <div class="status-card" id="statusMysql">
+        <div class="status-label">🗄 MySQL</div>
+        <div class="status-value" id="mysqlValue">Загрузка...</div>
+        <div class="status-msg" id="mysqlMsg"></div>
       </div>
     </div>
   </section>
 
-  <!-- ЧАТ -->
-  <section id="chat" class="section">
-    <div class="chat-container">
-      <div class="chat-header">
-        <div class="chat-header-icon">💬</div>
-        <div>
-          <h3>Общий чат сайта</h3>
-          <p class="wb-sub"><span id="chatCount">0</span> сообщений</p>
-        </div>
-        <button class="chat-refresh" onclick="loadChat()" title="Обновить">🔄</button>
+  <!-- НАСТРОЙКИ FTP -->
+  <section class="block">
+    <div class="block-head">
+      <div class="block-icon">📁</div>
+      <div>
+        <h2>Настройки FTP</h2>
+        <p class="sub">Данные для загрузки файлов на сервер</p>
       </div>
-      <div class="chat-messages" id="chatMessages">
-        <div class="chat-empty">Загрузка...</div>
-      </div>
-      <div class="chat-input-row">
-        <input type="text" id="chatInput" class="chat-input" placeholder="Напиши сообщение..." maxlength="1000">
-        <button class="chat-send" onclick="sendChat()" title="Отправить">📤</button>
-      </div>
-      <div class="msg" id="chatMsg"></div>
     </div>
+
+    <div class="form-grid">
+      <label>Хост<input type="text" id="ftpHost" placeholder="ftp.beenhost.com"></label>
+      <label>Порт<input type="number" id="ftpPort" placeholder="21" value="21"></label>
+      <label>Логин<input type="text" id="ftpUser" placeholder="user123"></label>
+      <label>Пароль<input type="password" id="ftpPass" placeholder="••••••••"></label>
+      <label class="full">Путь на сервере<input type="text" id="ftpPath" placeholder="/"></label>
+    </div>
+
+    <div class="actions">
+      <button class="save-btn" onclick="saveSettings()">💾 Сохранить FTP</button>
+    </div>
+    <div class="msg" id="ftpSaveMsg"></div>
   </section>
 
-  <!-- АДМИНИСТРАЦИЯ -->
-  <section id="admins" class="section">
-    <div class="admins-header">
-      <div class="card-icon">👑</div>
-      <div><h2>Администрация проекта</h2><p class="wb-sub">Люди, которые делают Dark Arbitr лучше</p></div>
+  <!-- НАСТРОЙКИ MYSQL -->
+  <section class="block">
+    <div class="block-head">
+      <div class="block-icon">🗄</div>
+      <div>
+        <h2>Настройки MySQL</h2>
+        <p class="sub">Данные для импорта базы данных</p>
+      </div>
     </div>
-    <div class="admins-grid" id="adminsGrid"><div class="admins-loading">Загрузка...</div></div>
+
+    <div class="form-grid">
+      <label>Хост<input type="text" id="mysqlHost" placeholder="mysql.beenhost.com"></label>
+      <label>Порт<input type="number" id="mysqlPort" placeholder="3306" value="3306"></label>
+      <label>Логин<input type="text" id="mysqlUser" placeholder="user123"></label>
+      <label>Пароль<input type="password" id="mysqlPass" placeholder="••••••••"></label>
+      <label class="full">База данных<input type="text" id="mysqlDb" placeholder="blackrussia"></label>
+    </div>
+
+    <div class="actions">
+      <button class="save-btn" onclick="saveSettings()">💾 Сохранить MySQL</button>
+    </div>
+    <div class="msg" id="mysqlSaveMsg"></div>
   </section>
 
-  <!-- СЕРВЕР -->
-  <section id="server" class="section">
-    <div class="grid grid-server">
-      <div class="card card-select">
-        <div class="card-icon">🌐</div>
-        <h3>Выбери сервер</h3>
-        <p>Здесь появятся все серверы, где есть бот и где ты имеешь права управления.</p>
-        <select id="guildSelect" class="select"><option value="">Загрузка...</option></select>
-        <div class="selected-info" id="selectedInfo" style="display:none;">
-          <span class="selected-label">Выбран:</span>
-          <span class="selected-name" id="selectedName"></span>
-        </div>
-      </div>
-    </div>
-    <div id="serverPanel" class="server-panel" style="display:none;">
-      <div class="server-header">
-        <div class="server-avatar" id="serverAvatar">🌐</div>
-        <div><h2 id="serverTitle">Сервер</h2><p class="server-sub" id="serverSub">Управление сервером</p></div>
-      </div>
-      <div class="grid">
-        <div class="card" id="settingsCard"><div class="card-icon">⚙️</div><h3>Настройки</h3><p>Авто-роль, Anti-caps, защита от ботов.</p><button class="open-btn" onclick="toggleSettings()">Настроить</button></div>
-        <div class="card" id="welcomeCard"><div class="card-icon">👋</div><h3>Приветствия</h3><p>Сообщения при входе и выходе участников.</p><button class="open-btn" onclick="toggleWelcome()">Настроить</button></div>
-        <div class="card" id="automodCard"><div class="card-icon">🛡️</div><h3>Автомодерация</h3><p>Anti-invite, anti-link, anti-spam, слова.</p><button class="open-btn" onclick="toggleAutomod()">Настроить</button></div>
-        <div class="card" id="logsCard"><div class="card-icon">📋</div><h3>Логи</h3><p>Отдельный канал для каждого события.</p><button class="open-btn" onclick="toggleLogs()">Настроить</button></div>
+  <!-- ЗАГРУЗКА МОДА -->
+  <section class="block">
+    <div class="block-head">
+      <div class="block-icon">📦</div>
+      <div>
+        <h2>Загрузить мод</h2>
+        <p class="sub">Файл будет залит по FTP в указанную папку</p>
       </div>
     </div>
 
-    <div id="settingsPanel" class="welcome-panel" style="display:none;">
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">⚙️</div><div><h3>Настройки сервера</h3><p class="wb-sub">Авто-роль, защита чата</p></div></div>
-        <label class="field-label">Авто-роль при входе</label>
-        <select id="autoRoleSelect" class="select"><option value="">— Не выдавать —</option></select>
-        <div class="vars-hint">Роль, выдаваемая новому участнику.</div>
+    <div class="upload-zone" id="modZone">
+      <input type="file" id="modFile" hidden>
+      <div class="upload-inner" onclick="document.getElementById('modFile').click()">
+        <div class="upload-icon">📦</div>
+        <div class="upload-text">Нажми или перетащи файл мода</div>
+        <div class="upload-hint">.zip, .rar, .7z — до 200 МБ</div>
       </div>
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">🔠</div><div><h3>Anti-caps</h3><p class="wb-sub">Защита от ЗАГЛАВНЫХ</p></div><label class="switch"><input type="checkbox" id="antiCapsEnabled"><span class="slider"></span></label></div>
-        <div class="vars-hint">Удаляет сообщения с >70% заглавных букв.</div>
-      </div>
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">🤖</div><div><h3>Защита от ботов</h3><p class="wb-sub">Кикать сторонних ботов</p></div><label class="switch"><input type="checkbox" id="antiBotsEnabled"><span class="slider"></span></label></div>
-        <div class="vars-hint">Автоматически кикает любого бота, кроме Dark Arbitr.</div>
-      </div>
-      <div class="welcome-actions">
-        <button class="save-btn" onclick="saveSettings()">Сохранить</button>
-        <button class="cancel-btn" onclick="toggleSettings()">Закрыть</button>
-      </div>
-      <div class="msg" id="settingsMsg"></div>
+      <div class="file-picked" id="modPicked" style="display:none;"></div>
     </div>
 
-    <div id="automodPanel" class="welcome-panel" style="display:none;">
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">📨</div><div><h3>Anti-invite</h3><p class="wb-sub">Защита от приглашений</p></div><label class="switch"><input type="checkbox" id="antiInvite"><span class="slider"></span></label></div>
-        <div class="vars-hint">Удаляет приглашения на другие серверы.</div>
-      </div>
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">🌐</div><div><h3>Anti-link</h3><p class="wb-sub">Защита от ссылок</p></div><label class="switch"><input type="checkbox" id="antiLink"><span class="slider"></span></label></div>
-        <div class="vars-hint">Удаляет все ссылки.</div>
-      </div>
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">📢</div><div><h3>Anti-spam</h3><p class="wb-sub">Защита от спама</p></div><label class="switch"><input type="checkbox" id="antiSpam"><span class="slider"></span></label></div>
-        <div class="vars-hint">>5 сообщений за 5 секунд — удаляются.</div>
-      </div>
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">🚫</div><div><h3>Запрещённые слова</h3><p class="wb-sub">Через запятую</p></div></div>
-        <textarea id="bannedWords" class="textarea" rows="3" placeholder="мат, спам, реклама"></textarea>
-        <div class="vars-hint">Через запятую. Если слово найдено — сообщение удаляется.</div>
-      </div>
-      <div class="welcome-actions">
-        <button class="save-btn" onclick="saveAutomod()">Сохранить</button>
-        <button class="cancel-btn" onclick="toggleAutomod()">Закрыть</button>
-      </div>
-      <div class="msg" id="automodMsg"></div>
+    <div class="actions">
+      <button class="save-btn" id="modUploadBtn" onclick="uploadMod()" disabled>📤 Загрузить мод</button>
     </div>
-
-    <div id="logsPanel" class="welcome-panel" style="display:none;">
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">📋</div><div><h3>Каналы для логов</h3><p class="wb-sub">Отдельный канал для каждого события</p></div></div>
-        <div class="vars-hint">Если канал не выбран — событие не логируется.</div>
-      </div>
-      <div class="welcome-block"><label class="field-label">👋 Вход</label><select id="logMemberJoin" class="select"><option value="">— Не логировать —</option></select></div>
-      <div class="welcome-block"><label class="field-label">🚪 Выход</label><select id="logMemberLeave" class="select"><option value="">— Не логировать —</option></select></div>
-      <div class="welcome-block"><label class="field-label">🗑️ Удаление сообщений</label><select id="logMessageDelete" class="select"><option value="">— Не логировать —</option></select></div>
-      <div class="welcome-block"><label class="field-label">✏️ Редактирование</label><select id="logMessageEdit" class="select"><option value="">— Не логировать —</option></select></div>
-      <div class="welcome-block"><label class="field-label">🔨 Баны</label><select id="logMemberBan" class="select"><option value="">— Не логировать —</option></select></div>
-      <div class="welcome-block"><label class="field-label">🔓 Разбаны</label><select id="logMemberUnban" class="select"><option value="">— Не логировать —</option></select></div>
-      <div class="welcome-block"><label class="field-label">🎭 Изменение ролей</label><select id="logRoleChange" class="select"><option value="">— Не логировать —</option></select></div>
-      <div class="welcome-actions">
-        <button class="save-btn" onclick="saveLogs()">Сохранить</button>
-        <button class="cancel-btn" onclick="toggleLogs()">Закрыть</button>
-      </div>
-      <div class="msg" id="logsMsg"></div>
+    <div class="progress" id="modProgress" style="display:none;">
+      <div class="progress-bar" id="modProgressBar"></div>
     </div>
-
-    <div id="welcomePanel" class="welcome-panel" style="display:none;">
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">👋</div><div><h3>Приветствие</h3><p class="wb-sub">При входе</p></div><label class="switch"><input type="checkbox" id="welcomeEnabled"><span class="slider"></span></label></div>
-        <label class="field-label">Канал</label>
-        <select id="welcomeChannel" class="select"><option value="">— Выбери канал —</option></select>
-        <label class="field-label">Текст</label>
-        <textarea id="welcomeText" class="textarea" rows="3" placeholder="Добро пожаловать, {user}!"></textarea>
-        <div class="vars-hint">Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code></div>
-      </div>
-      <div class="welcome-block">
-        <div class="wb-header"><div class="card-icon">🚪</div><div><h3>Прощание</h3><p class="wb-sub">При выходе</p></div><label class="switch"><input type="checkbox" id="goodbyeEnabled"><span class="slider"></span></label></div>
-        <label class="field-label">Канал</label>
-        <select id="goodbyeChannel" class="select"><option value="">— Выбери канал —</option></select>
-        <label class="field-label">Текст</label>
-        <textarea id="goodbyeText" class="textarea" rows="3" placeholder="Прощай, {user_name}..."></textarea>
-        <div class="vars-hint">Переменные: <code>{user}</code> <code>{user_name}</code> <code>{guild}</code> <code>{count}</code></div>
-      </div>
-      <div class="welcome-actions">
-        <button class="save-btn" onclick="saveWelcome()">Сохранить</button>
-        <button class="cancel-btn" onclick="toggleWelcome()">Закрыть</button>
-      </div>
-      <div class="msg" id="welcomeMsg"></div>
-    </div>
+    <div class="msg" id="modMsg"></div>
   </section>
 
-  <!-- МИНИ ИГРЫ -->
-  <section id="minigames" class="section">
-    <div class="grid">
-      <div class="card"><div class="card-icon">⚔️</div><h3>Дуэль</h3><p>100 HP у каждого. Урон 10–25, крит 20%.</p><span class="cmd">/дуэль @user</span></div>
-      <div class="card"><div class="card-icon">💥</div><h3>Атака</h3><p>Пошаговая система. Ход передаётся автоматически.</p><span class="cmd">!атака</span></div>
-      <div class="card"><div class="card-icon">🧮</div><h3>Математика</h3><p>Пример из +, −, ×, ÷. Первый правильный ответ — победа.</p><span class="cmd">!математика</span></div>
+  <!-- ЗАГРУЗКА БД -->
+  <section class="block">
+    <div class="block-head">
+      <div class="block-icon">🗄</div>
+      <div>
+        <h2>Импорт базы данных</h2>
+        <p class="sub">SQL-файл будет выполнен в MySQL</p>
+      </div>
     </div>
-  </section>
 
-  <!-- МОДЕРАЦИЯ -->
-  <section id="moderation" class="section">
-    <div class="grid">
-      <div class="card"><div class="card-icon">🔨</div><h3>Бан</h3><p>Забанить участника.</p><span class="cmd">/бан @user</span></div>
-      <div class="card"><div class="card-icon">👢</div><h3>Кик</h3><p>Выгнать без блокировки.</p><span class="cmd">/кик @user</span></div>
-      <div class="card"><div class="card-icon">🔇</div><h3>Мут</h3><p>Заглушить в чате.</p><span class="cmd">/мут @user</span></div>
-      <div class="card"><div class="card-icon">🔊</div><h3>Размут</h3><p>Снять мут досрочно.</p><span class="cmd">/размут @user</span></div>
-      <div class="card"><div class="card-icon">⚠️</div><h3>Варн</h3><p>Предупреждение.</p><span class="cmd">/варн @user</span></div>
-      <div class="card"><div class="card-icon">✅</div><h3>Снять варн</h3><p>Убрать предупреждение.</p><span class="cmd">/снять_варн @user</span></div>
+    <div class="upload-zone" id="dbZone">
+      <input type="file" id="dbFile" hidden accept=".sql,.txt">
+      <div class="upload-inner" onclick="document.getElementById('dbFile').click()">
+        <div class="upload-icon">🗄</div>
+        <div class="upload-text">Нажми или перетащи .sql файл</div>
+        <div class="upload-hint">Дамп базы данных</div>
+      </div>
+      <div class="file-picked" id="dbPicked" style="display:none;"></div>
     </div>
+
+    <div class="actions">
+      <button class="save-btn" id="dbUploadBtn" onclick="uploadDb()" disabled>📤 Импортировать БД</button>
+    </div>
+    <div class="progress" id="dbProgress" style="display:none;">
+      <div class="progress-bar" id="dbProgressBar"></div>
+    </div>
+    <div class="msg" id="dbMsg"></div>
   </section>
 
 </main>
 
-<div id="profileModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeProfile()">✕</button>
-    <div class="profile-avatar" id="profileAvatarBox">
-      <img id="profileAvatarImg" alt="">
-      <span id="profileAvatarLetter">?</span>
-    </div>
-    <h2 id="profileName">Загрузка...</h2>
-    <p class="profile-id" id="profileId">ID: —</p>
-    <div class="profile-status" id="profileStatus" style="display:none;"></div>
-    <div class="profile-bio" id="profileBio" style="display:none;"></div>
-    <div class="profile-stats">
-      <div class="profile-stat"><span id="profileGuilds">—</span><small>Серверов</small></div>
-    </div>
-    <button class="edit-profile-btn" id="editProfileBtn" onclick="toggleEditor()">🎨 Настроить профиль</button>
-    <div id="profileEditor" class="profile-editor" style="display:none;">
-      <label class="field-label">Цвет акцента</label>
-      <div class="color-palette" id="colorPalette"></div>
-      <label class="field-label">Статус</label>
-      <input type="text" id="editStatus" class="textarea" maxlength="80" style="font-size:14px;" placeholder="Например: Главный по мафии">
-      <label class="field-label">О себе</label>
-      <textarea id="editBio" class="textarea" rows="3" maxlength="200" placeholder="Пара слов о себе..."></textarea>
-      <div class="welcome-actions" style="margin-top:14px;">
-        <button class="save-btn" onclick="saveCustomProfile()">Сохранить</button>
-        <button class="cancel-btn" onclick="toggleEditor()">Отмена</button>
-      </div>
-      <div class="msg" id="profileEditMsg"></div>
-    </div>
-    <button class="logout-btn-full" onclick="logout()">🚪 Выйти из аккаунта</button>
-  </div>
-</div>
-
 <script src="script.js"></script>
-<script src="script2.js"></script>
 
 </body>
-                                                                                                                   </html>
+</html>
